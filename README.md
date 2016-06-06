@@ -40,6 +40,9 @@ $ bower install Gulp
 2. Install the NodeJS dependencies: `npm install`.
 3. Install the Bower dependencies: `bower install`.
 4. Run the gulp build task: `gulp build`.
+****Note: angular-route, angular-breadcrumb, angular-utils-pagination are added in development, they might be lack.
+**** If there is some errors occured and related to YYYYY.min.js files, you can try to install some lacking modules by bower as follow:
+**** bower install -g --save bower install angular-route angular-breadcrumbangular-utils-pagination
 5. Run the gulp default task: `gulp`. This will build any changes made automatically, and also run a live reload server on [http://localhost:8888](http://localhost:8888).
 ** Note: Ensure your preferred web server points towards the `dist` directory.
 
