@@ -1,0 +1,32 @@
+ <div class="login-page">
+	<div class="row"> 
+		<form role="form" ng-init="checkForgotPassword();" ng-submit="checkForgotPassword();login();"> 
+		<div class="col-md-4 col-lg-4 col-md-offset-4 col-lg-offset-4"> <img src="img/avatar.jpg" class="user-avatar"> 
+		<h1>Science Documents <br \><small>Personalized Recommendation System<br \><br \> If you don't have an account, <a href="#/register">Register</a> one!
+		<br \> <div ng-if="!isHideForgot"><a href="#">For got your Password?</a></div>
+			</small></h1> 
+			
+				<div class="form-content"> 
+					<div class="form-group"> 
+						<input type="text" class="form-control input-underline input-lg" ng-model="email" placeholder="your Email"> 
+					</div> 
+					<div class="form-group">   
+						<input type="{{inputType}}" class="form-control input-underline input-lg" ng-model="password" placeholder="your Password"> 
+						<input type="checkbox" id="checkbox" ng-model="passwordCheckbox" ng-click="hideShowPassword()">
+						<label for="checkbox" ng-if="passwordCheckbox">Hide password</label>
+						<label for="checkbox" ng-if="!passwordCheckbox">Show password</label>  
+					</div> 
+				</div> 
+				<button type="submit" class="btn btn-lg btn-info">Login</button> 
+				<button type="button" class="btn btn-white btn-outline btn-lg btn-rounded">Login by Google+</button> 
+				
+				<button type="button" class="btn btn-white btn-outline btn-lg btn-rounded">Login by Facebook</button> 
+				
+				<button type="button" class="btn btn-lg btn-info">Login by LinkedIn</button> 
+				
+				<button type="button" class="btn btn-lg btn-info">Login by ResearchGate</button> 
+			
+		</div> 
+		</form> 
+	</div> 
+</div>

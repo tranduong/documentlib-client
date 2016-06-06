@@ -1,0 +1,62 @@
+<!-- Header Bar -->
+        <div class="row header">
+          <div class="col-xs-12">
+            <div class="user pull-right">
+              <div class="item dropdown" uib-dropdown>
+                <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                  <img src="img/avatar.jpg">
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li class="dropdown-header">
+                    Profile <span ng-bind="myDetail.username"></span>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="link">
+                    <a ui-sref="readingdocumentlist">
+                      Reading Documents
+                    </a>
+                  </li>
+                  <li class="link">
+                    <a ui-sref="likeddocumentlist">
+                      Liked Documents
+                    </a>
+                  </li>
+				  <li class="link">
+                    <a ui-sref="shareddocumentlist">
+                      Shared Documents
+                    </a>
+                  </li>
+                  <li class="divider"></li>
+                  <li class="link">
+                    <a ui-sref="logout">
+                      Logout
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div class="item dropdown" uib-dropdown>
+               <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
+                  <i class="fa fa-bell-o"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                  <li class="dropdown-header">
+                    Notifications
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a href="#">Mohamed share you a document!</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="meta">
+              <div class="page">
+                Control Panels
+              </div>
+              <div class="breadcrumb-links">
+                <span ncy-breadcrumb></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- End Header Bar -->

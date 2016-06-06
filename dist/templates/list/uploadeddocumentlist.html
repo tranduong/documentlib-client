@@ -1,0 +1,71 @@
+<div ng-controller="DocumentCtrl">
+<div class="row">
+	<div class="col-lg-3 col-md-6 col-xs-12">
+		<rd-widget>
+			<rd-widget-body>
+				<div class="widget-icon green pull-left">
+					<i class="fa fa-users"></i>
+				</div>
+				<div class="title">{{numberOfDocs}}</div>
+				<div class="comment">Documents</div>
+			</rd-widget-body>
+		</rd-widget>
+	</div>
+	<div class="col-lg-3 col-md-6 col-xs-12">
+		<rd-widget>
+			<rd-widget-body>
+				<div class="widget-icon red pull-left">
+					<i class="fa fa-tasks"></i>
+				</div>
+				<div class="title">{{averageTimePerDay}}</div>
+				<div class="comment">Average/day</div>
+			</rd-widget-body>
+		</rd-widget>
+	</div>
+	<div class="col-lg-3 col-md-6 col-xs-12">
+		<rd-widget>
+			<rd-widget-body>
+				<div class="widget-icon orange pull-left">
+					<i class="fa fa-sitemap"></i>
+				</div>
+				<div class="title">{{peakUploaded}}</div>
+				<div class="comment">Peak Uploaded</div>
+			</rd-widget-body>
+		</rd-widget>
+	</div>	
+</div>
+
+<div class="row">
+	<rd-widget>
+		<rd-widget-header icon="fa-tasks" title="Documents which has been uploaded by you">			
+		</rd-widget-header>
+		<rd-widget-body classes="no-padding">
+			<div class="table-responsive">
+				<table class="table" ng-if="uploadedDocs != null">
+					<thead>
+						<tr><td align="right" colspan="6">								
+							<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>
+						</td></tr>
+					</thead>
+					<tfoot>
+						<tr><td align="right" colspan="6">								
+							<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>				
+						</td></tr>
+					</tfoot>
+					<tbody>
+						<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize" ng-click="selectDocument(doc);" pagination-id="udoc">
+							<td>{{doc.title}}</td>
+							<td>{{doc.authors}}</td>					
+							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank">{{doc.fileName}}</a></span></td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" download="{{doc.fileName}}">Download</a></span></td>
+							<td>{{doc.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
+							<td><span class="text-success" ng-click="deleteDocument(doc);"><i class="fa fa-check">Remove</i></span>
+							</td>
+						</tr>							
+					</tbody>
+				</table>
+			</div>
+		</rd-widget-body>
+	</rd-widget>	
+</div>
+</div>

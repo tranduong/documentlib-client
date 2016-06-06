@@ -1,0 +1,56 @@
+<div class="row">	
+    <rd-widget>
+      <rd-widget-header icon="fa-tasks" title="Searching Books">
+      </rd-widget-header>
+      <rd-widget-body classes="padding">
+	  <div data-ng-controller="SearchCtrl">
+		   <div>
+				<form name="form" ng-submit="submit()">
+					<noscript>
+						<div class="nojs">Javascript is either disabled or not supported in your browser. Please enable it or use a Javascript enabled browser.</div>
+					</noscript>
+
+					<input type="text" name="query" ng-model="query" ng-model-options="{ debounce: 100 }" placeholder="What is the topic which you are interesting?" class="form-control input-lg" autofocus>
+				</form>
+			</div>
+			<div ng-switch="isLoading">
+				<div ng-switch-when="true">
+					Loading results...
+				</div>
+
+				<div class="table-responsive" ng-switch-when="false">
+					  <table class="table">
+						<thead>
+							<tr><td colspan="2" align="right">								
+								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="sdoc"></dir-pagination-controls>
+							</td></tr>
+						</thead>
+ 						<tfoot>
+							<tr><td colspan="2" align="right">								
+								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="sdoc"></dir-pagination-controls>
+							</td></tr>
+						</tfoot>
+						<tbody>							
+							<tr dir-paginate="doc in resultDocs | itemsPerPage: pageSize" total-items="totalDocs" current-page="pagination.current" pagination-id="sdoc">
+								<td>
+									<table><tr><td width="70%">
+										{{doc._source.title}}</td><td align="right"><a href="{{getServerDocumentPath(doc._source.uploadedPath)}}" target="_blank">View</a> | <a href="{{getServerDocumentPath(doc._source.uploadedPath)}}" target="_blank" download="{{doc._source.fileName}}">Download </a> | <a href="#"> Reading </a> | <a href="#"> Like </a> | <a href="#"> Share </a></td></tr>
+										<tr><td>{{doc._source.authors}}</td><td></td></tr>
+										<tr><td>{{doc._source.publisher}} - {{doc._source.publishedDate}}</td><td>{{doc._source.uploadedUser}} uploaded at {{doc._source.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td></tr>
+										<tr colspan="2"><td>{{doc._source.abstract}}</td></tr>
+									</table>
+								</td>
+							</tr>						
+						</tbody>
+					  </table>					
+				</div>				
+			</div>			
+		</div>
+      </rd-widget-body>
+      <rd-widget-footer>
+        
+        <div class="clearfix"></div>
+      </rd-widget-footer>
+    </rd-widget>
+
+ </div> 

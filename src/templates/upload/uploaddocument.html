@@ -1,0 +1,88 @@
+<link rel="stylesheet" type="text/css" href="css/upload-file-module.css">
+<div>
+	<rd-widget>
+		<rd-widget-header icon="fa-tasks" title="Upload Form">			
+		</rd-widget-header>
+		<rd-widget-body classes="padding">
+			<div ng-controller="DocumentCtrl">
+				<div class="row" >
+					<form name="form" ng-submit="submit();"> 
+						<div class="form-content"> 				
+							<fieldset>
+							<div class="form-group"> 
+								<button type="submit" class="btn btn-sm btn-info" ng-disabled="!form.$valid" ng-if="!isEditing">Upload</button>
+								<button type="button" class="btn btn-sm btn-info" ng-disabled="!form.$valid" ng-if="isEditing" ng-click="saveEditedDoc()">Update</button>
+								<button type="button" class="btn btn-sm btn-info" ng-disabled="!form.$valid" ng-if="isEditing" ng-click="exitEditing()">Cancel</button>
+								<span class="message">{{log}}</span>
+							</div> 					
+							<div class="form-group"> 
+								<input type="text" name="title" class="form-control input-underline input-lg" size="100" placeholder="Input the document title here" ng-model="title" required> 
+								<i ng-show="form.title.$error.required">*required</i>
+							</div> 
+							<div class="form-group"> 
+								<input type="text" name="authors" class="form-control input-underline input-lg" size="80" placeholder="Input the authors here" ng-model="authors" required> 
+								<i ng-show="form.authors.$error.required">*required</i>
+							</div> 
+							<div class="form-group" ng-if="!isEditing"> 
+							<input type="file" ngf-select ng-model="file" name="file"    
+									 ngf-pattern="'application/pdf'" ngf-accept="'application/pdf'" ngf-max-size="20MB" required ngf-model-invalid="errorFile">
+							  <i ng-show="form.file.$error.required">*required</i><br>
+							  <i ng-show="form.file.$error.maxSize">File too large 
+								  {{errorFile.size / 1000000|number:1}}MB: max 20M</i>
+								<span class="progress" ng-show="file.progress >= 0">
+								<div style="width:{{file.progress}}%" 
+									ng-bind="file.progress + '%'"></div>
+								</span>
+							</div>
+							<div class="form-group"> 
+								<input type="text" ng-minlength="10" ng-maxlength="4000" ng-trim="true" name="abstract" class="form-control input-underline input-lg" placeholder="Summarize or describe abstract of your document here" ng-model="abstract" required> 
+								<i ng-show="form.abstract.$error.maxlength">Should not longer than 4000 characters</i>
+								<i ng-show="form.abstract.$error.minlength">Should not shorter than 10 characters</i>
+								<i ng-show="form.abstract.$error.required">*required</i>
+							</div> 							
+							<div class="form-group"> 
+								<input type="text" name="publisher" class="form-control input-underline input-lg" size="60" placeholder="Input the name of the publisher" ng-model="publisher"> 
+							</div> 					
+							<div class="form-group"> 
+								<input type="text" name="publishedDate" class="form-control input-underline input-lg" size="30" placeholder="Input the publisher date of the document" ng-model="publishedDate"> 
+							</div>			
+							<div class="form-group">						
+								<button type="submit" class="btn btn-sm btn-info" ng-disabled="!form.$valid" ng-if="!isEditing">Upload</button>
+								<button type="button" class="btn btn-sm btn-info" ng-disabled="!form.$valid" ng-if="isEditing" ng-click="saveEditedDoc()">Update</button>
+								<button type="button" class="btn btn-sm btn-info" ng-disabled="!form.$valid" ng-if="isEditing" ng-click="exitEditing()">Cancel</button>
+								<span class="message">{{log}}</span>
+							</div> 
+							</fieldset>
+						</div>				
+					</form> 
+				</div>
+				<div class="row">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr><td align="right" colspan="5">								
+									<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>
+								</td></tr>
+							</thead>
+							<tfoot>
+								<tr><td align="right" colspan="5">								
+									<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>				
+								</td></tr>
+							</tfoot>
+							<tbody>
+								<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize"  ng-click="selectDocument(doc);" pagination-id="udoc">
+									<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank">{{doc.fileName}}</a></span></td>
+									<td>{{doc.title}}</td>
+									<td>{{doc.authors}}</td>
+									<td>{{doc.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
+									<td><span class="text-success" ng-click="deleteDocument($index, doc);"><i class="fa fa-check" >Remove</i></span>
+									</td>
+								</tr>							
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</rd-widget-body>
+	</rd-widget>
+</div>
