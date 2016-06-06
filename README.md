@@ -49,7 +49,9 @@ $ bower install Gulp
 #### Server-module installation
 1. Clone the repository: `git clone https://github.com/tranduong/documentlib-server.git`
 2. Install the NodeJS dependencies: `npm install`.
-3. Install the Bower dependencies: `bower install`.
+3. Run server by commend : `node server.js`.
+**** If there is some errors occured, please try to install shortage packages such as ssh2, textract by command : `npm install ssh2, textract`
+
 
 #### Integrate them with MongoDB and Elastic Search
 
