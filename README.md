@@ -56,6 +56,7 @@ $ bower install Gulp
 
 #### Integrate them with MongoDB and Elastic Search
 When you assure that Client module and Server module are started properly (without error at compiled time), you will turn on a whole system and integrate them step by step:
+
 1. Start the mongodb server, then you will have to configure the server module to point to this database server in the next step.
 2. Start the elasticsearch server, you will also need to define the pointer to this server on the server module.
 3. Start the file server, in case you store the data outside the service server node.
