@@ -61,6 +61,7 @@ $ bower install Gulp
 * *If you face with this error "js-bson: Failed to load c++ bson extension, using pure JS version", refer [this article](https://github.com/Automattic/mongoose/issues/2285) and [this artice] (http://stackoverflow.com/questions/29238424/error-in-npm-install-inspite-of-changing-the-file-bson/29714359#29714359)*
 
 * *Then use follow command: "npm config set python python2.7" & "npm install" (make sure that all installed module has been removed or clean. If you are using Windows, make sure that your system had been installed Visual Studio and Python)*
+* *If it is still not solved, you should modify the content of index.js file in  ".\node_modules\mongoose\node_modules\mongodb\node_modules\bson\ext" folder from "bson = require('../build/Release/bson'); " to "bson = require('bson'); "" *
 
 #### Integrate them with MongoDB and Elastic Search
 When you assure that Client module and Server module are started properly (without error at compiled time), you will turn on a whole system and integrate them step by step:
