@@ -2,12 +2,14 @@
 angular
     .module('SDLMSys')	
     .config(['$httpProvider', function ($httpProvider) {
-		$httpProvider.interceptors.push(['$q', '$location', '$localStorage', function($q, $location, $localStorage) {
+		$httpProvider.interceptors.push(['$q', '$location', '$localStorage', 'Utils', 'SEARCH_HOST', function($q, $location, $localStorage, Utils, SEARCH_HOST) {
             return {
                 'request': function (config) {
                     config.headers = config.headers || {};
-                    if ($localStorage.token) {
+					
+                    if ($localStorage.token && !config.url.match(SEARCH_HOST.MULTI_API)) {
 						//console.log("Add bearer: " + $localStorage.token);
+						//console.log("Added Bearer");
                         config.headers.Authorization = 'Bearer ' + $localStorage.token;
                     }
                     return config;

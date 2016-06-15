@@ -4,9 +4,9 @@
  */
 
 angular.module('SDLMSys')
-    .controller('MasterCtrl', ['$scope', '$cookieStore', MasterCtrl]);
+    .controller('MasterCtrl', ['$scope', '$cookieStore', '$localStorage', MasterCtrl]);
 
-function MasterCtrl($scope, $cookieStore) {
+function MasterCtrl($scope, $cookieStore, $localStorage) {
 	console.log("Constructing MasterCtrl...");	
     /**
      * Sidebar Toggle & Cookie Control
@@ -39,4 +39,7 @@ function MasterCtrl($scope, $cookieStore) {
         $scope.$apply();
     };
 	console.log($scope);
+	
+	$scope.myDetail = $localStorage.myDetail;
+	$scope.token = $localStorage.token;
 }

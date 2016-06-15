@@ -22,9 +22,9 @@
 							<div class="form-group"> 
 								<input type="text" name="authors" class="form-control input-underline input-lg" size="80" placeholder="Input the authors here" ng-model="authors" required> 
 								<i ng-show="form.authors.$error.required">*required</i>
-							</div> 
+							</div> 											
 							<div class="form-group" ng-if="!isEditing"> 
-							<input type="file" ngf-select ng-model="file" name="file" ngf-pattern="'application/pdf'" ngf-accept="'application/pdf'" ngf-max-size="20MB" required ngf-model-invalid="errorFile">
+							<input type="file" ngf-select="selectFile($file);" ng-model="file" name="file" ngf-pattern="'*'" ngf-accept="'*'" ngf-max-size="20MB" required ngf-model-invalid="errorFile">
 							  <i ng-show="form.file.$error.required">*required</i><br>
 							  <i ng-show="form.file.$error.maxSize">File too large 
 								  {{errorFile.size / 1000000|number:1}}MB: max 20M</i>
@@ -32,6 +32,24 @@
 								<div style="width:{{file.progress}}%" ng-bind="file.progress + '%'"></div>
 								</span>
 							</div>
+							<div class="form-group"> 
+								<select name="privacy" ng-model="$parent.privacy" ng-if="!isEditing" class="input-underline input-lg" placeholder="Select the Privacy">
+									<option value="public">Public</option>
+									<option value="private">Private</option>
+								</select>
+								<select name="category" ng-model="category" class="input-underline input-lg" placeholder="Select the Document Category">
+									<option value="Mathematics">Mathematics</option>
+									<option value="Physics">Physics</option>
+									<option value="Computer Science">Computer Science</option>
+									<option value="Social Science">Social Science</option>
+								</select>
+								<select name="demomode" ng-model="$parent.demomode" ng-if="!isEditing" class="input-underline input-lg" placeholder="Select the demo mode you want">
+									<option value="1">Custom routing with 3 public/private/share indexes</option>
+									<option value="2">Custom routing with one index and 3 public/private/share types</option>									
+									<option value="3">Separate indexes for users</option>
+									<option value="4">Separate types for private/public/share</option>						
+								</select>
+							</div> 							
 							<div class="form-group"> 
 								<input type="text" ng-minlength="10" ng-maxlength="4000" ng-trim="true" name="abstract" class="form-control input-underline input-lg" placeholder="Summarize or describe abstract of your document here" ng-model="abstract" required> 
 								<i ng-show="form.abstract.$error.maxlength">Should not longer than 4000 characters</i>
@@ -55,29 +73,46 @@
 					</form> 
 				</div>
 				<div class="row">
-					<div class="table-responsive">
-						<table class="table">
-							<thead>
-								<tr><td align="right" colspan="5">								
-									<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>
-								</td></tr>
-							</thead>
-							<tfoot>
-								<tr><td align="right" colspan="5">								
-									<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>				
-								</td></tr>
-							</tfoot>
-							<tbody>
-								<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize" ng-click="selectDocument(doc);" pagination-id="udoc">
-									<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank">{{doc.fileName}}</a></span></td>
-									<td>{{doc.title}}</td>
-									<td>{{doc.authors}}</td>
-									<td>{{doc.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
-									<td><span class="text-success" ng-click="deleteDocument($index, doc);"><i class="fa fa-check">Remove</i></span>
-									</td>
-								</tr>							
-							</tbody>
-						</table>
+					<div ng-switch="isLoading">
+						<div ng-switch-when="true">
+							Loading results...
+						</div>
+						<div class="table-responsive" ng-switch-when="false">
+							<table class="table">
+								<thead>
+									<tr>
+									<td>File name</td>
+									<td>Title</td>
+									<td>Authors</td>
+									<td>Category</td>
+									<td>Privacy</td>
+									<td>Uploaded Time</td>
+									<td colspan="2">Actions</td>
+									</tr>
+									<tr><td align="right" colspan="7">								
+										<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>
+									</td></tr>
+								</thead>
+								<tfoot>
+									<tr><td align="right" colspan="7">								
+										<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>				
+									</td></tr>
+								</tfoot>
+								<tbody>
+									<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize track by $index" pagination-id="udoc">
+										<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank">{{doc.fileName}}</a></span></td>
+										<td>{{doc.title}}</td>
+										<td>{{doc.authors}}</td>
+										<td>{{doc.category}}</td>
+										<td>{{doc.privacy}}</td>
+										<td>{{doc.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
+										<td><span class="text-success" ng-click="editDocument(doc);"><i class="fa">Edit</i></span>
+										</td><td><span class="text-success" ng-click="deleteDocument($index, doc);"><i class="fa fa-cross">Remove</i></span>
+										</td>
+									</tr>							
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>

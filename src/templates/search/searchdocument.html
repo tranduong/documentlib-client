@@ -11,31 +11,63 @@
 					</noscript>
 
 					<input type="text" name="query" ng-model="query" ng-model-options="{ debounce: 100 }" placeholder="What is the topic which you are interesting?" class="form-control input-lg" autofocus/>
+					<div class="form-group"> 
+						<select name="privacy" ng-model="privacy" class="input-underline input-lg" placeholder="Select the Privacy">
+							<option value="all">All Public and my Private</option>
+							<option value="pubnpri">my Public and my Private</option>
+							<option value="public">my Public</option>
+							<option value="private">my Private</option>
+						</select>
+						<select name="category" ng-model="category" class="input-underline input-lg" placeholder="Select the Document Category">
+							<option value="all">All</option>
+							<option value="Mathematics">Mathematics</option>
+							<option value="Physics">Physics</option>
+							<option value="Computer Science">Computer Science</option>
+							<option value="Social Science">Social Science</option>
+						</select>
+						<select name="demomode" ng-model="$parent.demomode" ng-if="!isEditing" class="input-underline input-lg" placeholder="Select the demo mode you want">
+							<option value="1">Custom routing with 3 public/private/share indexes</option>
+							<option value="2">Custom routing with one index and 3 public/private/share types</option>									
+							<option value="3">Separate indexes for users</option>
+							<option value="4">Separate types for private/public/share</option>						
+						</select>
+					</div> 		
 				</form>
 			</div>
+			
 			<div ng-switch="isLoading">
 				<div ng-switch-when="true">
 					Loading results...
 				</div>
-
+				<div ng-if="undefined !== errorLog">{{resultLog}}</div>
 				<div class="table-responsive" ng-switch-when="false">
 					  <table class="table" >
 						<thead>
-							<tr><td colspan="2" align="right">								
+							<tr><td>
+								<table width="100%">
+									<tr><td width="70%">Title<br/>Authors<br/>Publisher - Publish Date</td>
+										<td>Actions<br/>Category<br/>Uploaded Time</td>
+									</tr>
+									<tr><td colspan="2">Abstracts</td>								
+									</tr>
+								</table>
+							</td>
+							</tr>
+							<tr><td align="right">								
 								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="sdoc" ></dir-pagination-controls>
 							</td></tr>
 						</thead>
  						<tfoot>
-							<tr><td colspan="2" align="right">								
+							<tr><td align="right">								
 								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="sdoc" ></dir-pagination-controls>
 							</td></tr>
 						</tfoot>
 						<tbody>							
 							<tr dir-paginate="doc in resultDocs | itemsPerPage: pageSize" total-items="totalDocs" current-page="pagination.current" pagination-id="sdoc">
 								<td>
-									<table><tr><td width="70%">
+									<table width="100%"><tr><td width="70%">
 										{{doc._source.title}}</td><td align="right"><a href="{{getServerDocumentPath(doc._source.uploadedPath)}}" target="_blank">View</a> | <a href="{{getServerDocumentPath(doc._source.uploadedPath)}}" target="_blank" download="{{doc._source.fileName}}">Download </a> | <a href="#"> Reading </a> | <a href="#"> Like </a> | <a href="#"> Share </a></td></tr>
-										<tr><td>{{doc._source.authors}}</td><td></td></tr>
+										<tr><td>{{doc._source.authors}}</td><td>{{doc._source.category}}</td></tr>
 										<tr><td>{{doc._source.publisher}} - {{doc._source.publishedDate}}</td><td>{{doc._source.uploadedUser}} uploaded at {{doc._source.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td></tr>
 										<tr colspan="2"><td>{{doc._source.abstract}}</td></tr>
 									</table>

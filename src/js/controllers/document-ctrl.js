@@ -6,19 +6,35 @@ angular
   
 function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, PAGINATION) {
 	console.log("Constructing DocumentCtrl...");
+	
+	// list of uploaded documents
 	$scope.uploadedDocs = [];
-    $scope.log = '';
-	$scope.isSucceedUpload = 0;
+	
+    // document information parts
 	$scope.title = '';
 	$scope.authors  = '';
 	$scope.abstract  = '';
 	$scope.publisher  = '';
-	$scope.publishedDate  = '';
+	$scope.publishedDate  = '';	
+	$scope.privacy 	= '';
+	$scope.category = '';
+	$scope.demomode = '';
+	
+	// other working variables
+	$scope.log = '';
+	$scope.isSucceedUpload = 0;
+	
 	$scope.isEditing = false;
 	isLoading = false;
 	
 	$scope.peakUploaded = 0;
 	$scope.averageTimePerDay = 0;
+	
+	$scope.selectFile = function(file) {   
+		$scope.file = file;
+		console.log("play here");
+	}
+
 	// upload later on form submit or something similar
     $scope.uploadDocument = function() {    
 		//console.log("come here 1!");
@@ -29,34 +45,40 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, PAG
 	{
 		//console.log("come here 2!");
 		$scope.log = '';
-		$scope.isSucceedUpload = 0;
+		$scope.isSucceedUpload = 0;		
 	}
 	
 	$scope.submit = function() {
 		$scope.uploadDocument();
 	}
 	
+	function cleanup() {
+		$scope.file = undefined;
+	}
 	
 	$scope.uploadFile = function(file) {
 		//console.log("come here 3!");
         if (file) {
 			$scope.clearLog();
-			//console.log("come here 3 - 1!");
+			console.log("come here 3 - 1!");
 			// console.log($scope);
             file.upload = Upload.upload({
                 url: 'http://localhost:3001/uploadDoc',
                 data: {
-                      username: $scope.username,
-					  title: $scope.title,
-					  authors: $scope.authors,
-					  abstract: $scope.abstract,
-					  publisher: $scope.publisher,
-					  publishedDate: $scope.publishedDate,
-                      file: file  
+					username: 	$scope.username,
+					title: 		$scope.title,
+					authors: 	$scope.authors,
+					abstract: 	$scope.abstract,
+					publisher: 	$scope.publisher,
+					publishedDate: 	$scope.publishedDate,
+					privacy: 		$scope.privacy,
+					category: 		$scope.category,
+					demomode:		$scope.demomode,
+					file: file  
                 }
             })
 			.then(function (resp) {
-                //console.log("Running here!");
+                console.log("Running here!");
 				
 				$timeout(function() {
 					var log = 'file: ' +
@@ -68,7 +90,8 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, PAG
 					$scope.isSucceedUpload = $scope.isSucceedUpload + 1;					
 				});				
 				$scope.isSucceedUpload = $scope.isSucceedUpload + 1;
-				//console.log("Running here out! 1");
+				console.log("Running here out! 1");
+				cleanup();
             }, function (resp) {
 				//console.log("Running error!");
                 if (resp.status > 0)
@@ -84,7 +107,12 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, PAG
                     	'% ' + evt.config.data.file.name;
 					$scope.isSucceedUpload = $scope.isSucceedUpload + 1;
 			});			
-        }   
+        }
+		else{
+			$scope.log = "$scope.file is null";
+			console.log($scope.log);
+			console.log($scope);
+		}
     }
 		 
     function activate(DocumentSvc, needTimeout) {
@@ -141,7 +169,7 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, PAG
 		
 	}
 	
-	$scope.selectDocument = function(doc){
+	$scope.editDocument = function(doc){
 		//console.log("come here 6!");
 		//console.log("select document : " + doc);
 		$scope.isEditing = true;
@@ -152,6 +180,8 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, PAG
 		$scope.abstract = doc.abstract;
 		$scope.publisher 	 = doc.publisher;
 		$scope.publishedDate = doc.publishedDate;
+		$scope.privacy 	 	 = doc.privacy;
+		$scope.category 	 = doc.category;
 	}
 	
 	$scope.saveEditedDoc = function(){
@@ -160,7 +190,8 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, PAG
 		$scope.editingDoc.abstract	= $scope.abstract;
 		$scope.editingDoc.publisher 	= $scope.publisher;
 		$scope.editingDoc.publishedDate = $scope.publishedDate;
-		
+		$scope.editingDoc.privacy 		= $scope.privacy;
+		$scope.editingDoc.category	 	= $scope.category;
 		updateDocument($scope.editingDoc);
 	}
 	
@@ -172,7 +203,11 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, PAG
 		$scope.abstract = '';
 		$scope.publisher 	 = '';
 		$scope.publishedDate = '';
-		$scope.isEditing = false;
+		$scope.isEditing 	 = false;
+
+		$scope.privacy	 	 = '';
+		$scope.category 	 = '';
+		$scope.demomode 	 = '';		
 	}
 	
 	

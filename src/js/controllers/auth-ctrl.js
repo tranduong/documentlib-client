@@ -140,4 +140,16 @@ angular
 	
 	// Set the default value of inputType
 	$scope.inputType = 'password';	 
+	
+	$scope.getStatistic = function(){
+		MainSvc.getStatistic(function(success){
+			$scope.stats = success;
+			// console.log(success);
+		}, function(err){
+			console.log(err);
+		});		
+	}
+	
+	// Init get statistic information
+	$scope.getStatistic();
 }

@@ -43,23 +43,34 @@
 			<div class="table-responsive" >
 				<table class="table" ng-if="uploadedDocs != null">
 					<thead>
-						<tr><td align="right" colspan="6">								
+						<tr>
+							<td>Title</td>
+							<td>Authors</td>
+							<td>Category</td>
+							<td>Privacy</td>
+							<td>Uploaded Date</td>
+							<td colspan="4">Actions</td>
+						</tr>
+						<tr><td align="right" colspan="9">								
 							<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>
 						</td></tr>
 					</thead>
 					<tfoot>
-						<tr><td align="right" colspan="6">								
+						<tr><td align="right" colspan="9">								
 							<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>				
 						</td></tr>
 					</tfoot>
 					<tbody>
-						<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize"  ng-click="selectDocument(doc);" pagination-id="udoc">
+						<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize track by $index"  pagination-id="udoc">
 							<td>{{doc.title}}</td>
-							<td>{{doc.authors}}</td>					
+							<td>{{doc.authors}}</td>
+							<td>{{doc.category}}</td>
+							<td>{{doc.privacy}}</td>
+							<td>{{doc.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
 							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank">{{doc.fileName}}</a></span></td>
 							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" download="{{doc.fileName}}">Download</a></span></td>
-							<td>{{doc.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
-							<td><span class="text-success" ng-click="deleteDocument(doc);"><i class="fa fa-check" >Remove</i></span>
+							<td><span class="text-success" ng-click="editDocument(doc);" ><i class="fa" >Edit</i></span>
+							<td><span class="text-success" ng-click="deleteDocument($index,doc);"><i class="fa fa-check" >Remove</i></span>
 							</td>
 						</tr>							
 					</tbody>

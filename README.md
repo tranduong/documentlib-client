@@ -55,7 +55,7 @@ $ bower install Gulp
 1. Clone the repository: `git clone https://github.com/tranduong/documentlib-server.git`
 2. Install the NodeJS dependencies: `npm install`.
 3. Run server by command : start_server ( to execute the built-in batch file start_server.bat )
-* *Note: If you use this command `node server.js`, the pdftotext module is not specified so that the textract module work improperly. In other OSs, please make sure that pdftotext module has been installed and work properly before executing the server *
+* *Note: If you use this command `node server.js`, the pdftotext module is not specified so that the textract module works improperly. In other OSs, please make sure that pdftotext module has been installed and worked properly before executing the server *
 
 * *If there is some errors occured, please try to install shortage packages such as ssh2, textract by command : `npm install ssh2, textract`*
 
