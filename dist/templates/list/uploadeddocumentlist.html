@@ -41,6 +41,24 @@
 		</rd-widget-header>
 		<rd-widget-body classes="no-padding">
 			<div class="table-responsive">
+				<form>
+					<input ng-model="queryTitle" type="text" ng-model-options="{ debounce: 100 }" placeholder="Filter by Title" class="form-control input-lg" autofocus>
+					<input ng-model="queryAuthor" type="text" ng-model-options="{ debounce: 100 }" placeholder="Filter by Authors" class="form-control input-lg" autofocus>
+					<select name="privacy" ng-model="queryPrivacy" class="input-underline input-lg" placeholder="Filter by Document Privacy">
+						<option value="">All of My Public and Private</option>
+						<option value="public">Public</option>
+						<option value="private">Private</option>
+					</select>
+					<select name="category" ng-model="queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
+						<option value="">All</option>
+						<option value="Mathematics">Mathematics</option>
+						<option value="Physics">Physics</option>
+						<option value="Computer Science">Computer Science</option>
+						<option value="Social Science">Social Science</option>
+					</select>
+				</form>
+			</div>
+			<div class="table-responsive">
 				<table class="table" ng-if="uploadedDocs != null">
 					<thead>
 						<tr>
@@ -61,7 +79,7 @@
 						</td></tr>
 					</tfoot>
 					<tbody>
-						<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize track by $index" pagination-id="udoc">
+						<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, privacy : queryPrivacy, category: queryCategory } track by $index" pagination-id="udoc" class="hoverme">
 							<td>{{doc.title}}</td>
 							<td>{{doc.authors}}</td>
 							<td>{{doc.category}}</td>

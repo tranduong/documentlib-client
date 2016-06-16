@@ -2,11 +2,84 @@
 
 angular
   .module('SDLMSys')
-  .controller('DocumentCtrl', ['$scope', 'Upload', '$timeout', '$localStorage', 'DocumentSvc', 'PAGINATION', DocumentCtrl]);
+  .controller('DocumentCtrl', ['$scope', 'Upload', '$timeout', '$localStorage', 'DocumentSvc', 'SearchSvc', 'PAGINATION', DocumentCtrl]);
   
-function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, PAGINATION) {
+function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, SearchSvc, PAGINATION) {
 	console.log("Constructing DocumentCtrl...");
+/* 	$scope.$watch('query',function(value)
+	{
+		$scope.isSearching = checkSwitcher();
+		$scope.isLoading = true;
+
+		fetch(value, $scope.searchCategory);
+				
+		$scope.isLoading = false;
+	});
 	
+	$scope.$watch('searchCategory',function(value)
+	{
+		$scope.isSearching = checkSwitcher();
+		$scope.isLoading = true;
+
+		fetch($scope.query, $scope.searchCategory);
+				
+		$scope.isLoading = false;
+	});
+	
+	function checkSwitcher(){
+		if ($scope.query === '' && ($scope.searchCategory === 'all' || $scope.searchCategory === '')) 
+			return false;
+		else 
+			return true;
+	}
+	
+	function clearPreviousResult()
+	{
+		$scope.errorLog = "";
+		$scope.resultLog = "";		
+		$scope.totalDocs = 0;
+		$scope.resultDocs = [];
+	}
+	
+    function fetch(query, searchCategory) {
+		
+		var searchPrivacy = "pubnpri";
+		var searchDemoMode = 1;
+		clearPreviousResult();
+		
+		SearchSvc.searchData(query, searchPrivacy, searchCategory, searchDemoMode, 0, $scope.pageSize, function(response){
+			console.log(response);
+			if ( response.status == 200 ) // successful 
+			{
+				if (response.data)
+				{
+					$scope.resultDocs = [];
+					var numbers = response.data.responses.length;
+					var totalCount = 0;
+
+					for (i = 0; i < numbers; i++)
+					{
+						if (response.data.responses[i].error)
+						{
+							$scope.errorLog = $scope.errorLog + response.data.responses[i].error.index + " - " + response.data.responses[i].error.reason;
+							$scope.resultLog = "There is no document found";
+						}
+						else{
+							$scope.resultDocs = $scope.resultDocs.concat(response.data.responses[i].hits.hits);
+							totalCount = totalCount + response.data.responses[i].hits.total;					
+						}
+					}
+					$scope.totalDocs = totalCount;
+				}
+			}
+			else{
+				console.log(response.statusText);
+				$scope.errorLog = response.statusText;
+			}			
+		},function(err){
+			$scope.errorLog = err;
+		});
+	} */
 	// list of uploaded documents
 	$scope.uploadedDocs = [];
 	

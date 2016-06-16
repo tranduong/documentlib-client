@@ -63,7 +63,7 @@
 							</td></tr>
 						</tfoot>
 						<tbody>							
-							<tr dir-paginate="doc in resultDocs | itemsPerPage: pageSize" total-items="totalDocs" current-page="pagination.current" pagination-id="sdoc">
+							<tr dir-paginate="doc in resultDocs | itemsPerPage: pageSize" total-items="totalDocs" current-page="pagination.current" pagination-id="sdoc" class="hoverme">
 								<td>
 									<table width="100%"><tr><td width="70%">
 										{{doc._source.title}}</td><td align="right"><a href="{{getServerDocumentPath(doc._source.uploadedPath)}}" target="_blank">View</a> | <a href="{{getServerDocumentPath(doc._source.uploadedPath)}}" target="_blank" download="{{doc._source.fileName}}">Download </a> | <a href="#"> Reading </a> | <a href="#"> Like </a> | <a href="#"> Share </a></td></tr>

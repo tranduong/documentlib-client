@@ -1,4 +1,3 @@
-<link rel="stylesheet" type="text/css" href="css/upload-file-module.css">
 <div>
 	<rd-widget>
 		<rd-widget-header icon="fa-tasks" title="Upload Form">			
@@ -101,7 +100,7 @@
 									</td></tr>
 								</tfoot>
 								<tbody>
-									<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize track by $index"  pagination-id="udoc">
+									<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize track by $index"  pagination-id="udoc" class="hoverme">
 										<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank">{{doc.fileName}}</a></span></td>
 										<td>{{doc.title}}</td>
 										<td>{{doc.authors}}</td>
