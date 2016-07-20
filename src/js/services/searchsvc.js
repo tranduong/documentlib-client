@@ -240,24 +240,54 @@ function SearchSvc($http, $localStorage, SEARCH_HOST)
 			console.log("=============SEARCH CONFIG=============");
 			
 			$http(config)
-				.then(function(response) {
-					//console.log("Send query successful");
-					//console.log(response);
-					if (typeof successCallback === "function")	
-					{
-						//console.log("Callback called");
-						successCallback(response);
-					}
-				}, function (err) {
-					// called asynchronously if an error occurs
-					// or server returns response with an error status.
-					if (typeof errorCallback === "function")
-					{
-						//console.log("Callback called");
-						errorCallback(err);
-					}
-						
-				});
+			.then(function(response) {
+				//console.log("Send query successful");
+				//console.log(response);
+				if (typeof successCallback === "function")	
+				{
+					//console.log("Callback called");
+					successCallback(response);
+				}
+			}, function (err) {
+				// called asynchronously if an error occurs
+				// or server returns response with an error status.
+				if (typeof errorCallback === "function")
+				{
+					//console.log("Callback called");
+					errorCallback(err);
+				}
+					
+			});
+		},
+		searchUser: function(query, fromPage, size, successCallback, errorCallback)
+		{
+			var searchURL = SEARCH_HOST.URL + '/doclib_main/User/' +  SEARCH_HOST.SINGLE_API + '?q=' + query + '&from=' + fromPage + '&size=' + size;
+			var config = {
+					method: 'GET',
+					url : searchURL
+				};
+			console.log("=============SEARCH CONFIG=============");
+			console.log(config);
+			console.log("=============SEARCH CONFIG=============");
+			$http(config)
+			.then(function(response) {
+				//console.log("Send query successful");
+				//console.log(response);
+				if (typeof successCallback === "function")	
+				{
+					//console.log("Callback called");
+					successCallback(response);
+				}
+			}, function (err) {
+				// called asynchronously if an error occurs
+				// or server returns response with an error status.
+				if (typeof errorCallback === "function")
+				{
+					//console.log("Callback called");
+					errorCallback(err);
+				}
+					
+			});
 		}
 	};
 }

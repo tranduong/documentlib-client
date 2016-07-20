@@ -88,28 +88,35 @@
 									<td>Category</td>
 									<td>Privacy</td>
 									<td>Uploaded Time</td>
-									<td colspan="2">Actions</td>
+									<td colspan="3">Actions</td>
+									<td colspan="5">Statistics</td>
 									</tr>
-									<tr><td align="right" colspan="7">								
+									<tr><td align="right" colspan="9">								
 										<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>
 									</td></tr>
 								</thead>
 								<tfoot>
-									<tr><td align="right" colspan="7">								
+									<tr><td align="right" colspan="9">								
 										<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>				
 									</td></tr>
 								</tfoot>
 								<tbody>
 									<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize track by $index"  pagination-id="udoc" class="hoverme">
-										<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank">{{doc.fileName}}</a></span></td>
+										<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank"  ng-click="userInteract(doc._id, 'view')">{{doc.fileName}}</a></span></td>
 										<td>{{doc.title}}</td>
 										<td>{{doc.authors}}</td>
 										<td>{{doc.category}}</td>
 										<td>{{doc.privacy}}</td>
 										<td>{{doc.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
+										<td><span class="text-success"><a href="" ng-click="openShare(doc._id)">Share</a></span></td>
 										<td><span class="text-success" ng-click="editDocument(doc);"><i class="fa" >Edit</i></span>
 										<td><span class="text-success" ng-click="deleteDocument($index, doc);"><i class="fa fa-cross" >Remove</i></span>
 										</td>
+										<td>Viewed ({{doc.viewed_by.length}})</td>
+										<td>Downloaded ({{doc.downloaded_by.length}})</td>
+										<td>Liked ({{doc.liked_by.length}})</td>
+										<td>Reading ({{doc.read_by.length}})</td>
+										<td>Shared ({{doc.beSharedTransactions.length}})</td>	
 									</tr>							
 								</tbody>
 							</table>
@@ -117,6 +124,28 @@
 					</div>
 				</div>
 			</div>
+			<script type="text/ng-template" id="firstDialog">
+				<div class="ngdialog-message">
+					<span>You would like to share this document to who :</span>
+					<div>
+						<form>
+							<input ng-model="shareText" type="text" placeholder="Recommend text to your friends" class="form-control" autofocus>
+							</br>
+							<ul>
+								<li ng-repeat="friend in friends"><input type="checkbox" checklist-model="selectedFriends" checklist-value="friend" checklist-comparator="compareFn"> {{friend.username}} - {{friend.email}}</li>
+							</ul>
+							</br>
+						</form>			
+					</div>
+					<div class="mt">People, whom you selected, are able to interact with the document you shared.</div>
+				</div>
+						
+				<div class="ngdialog-buttons mt">
+					<button type="button"  class="ngdialog-button ngdialog-button-primary" ng-click="submit()">Share</button>
+					<button type="button"  class="ngdialog-button" ng-click="uncheckAll()">Uncheck All</button>
+					<button type="button"  class="ngdialog-button" ng-click="checkAll()">Check All</button>
+				</div>
+			</script>
 		</rd-widget-body>
 	</rd-widget>
 </div>

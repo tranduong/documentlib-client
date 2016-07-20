@@ -4,55 +4,97 @@
 	  
       </rd-widget-header>
       <rd-widget-body>
-        <div class="table-responsive">
-          <table class="table">
-            <tbody>
-				<tr><td>
-				<table><tr><td width="70%">
-					Perception theory</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
+	    <div  ng-controller="DownloadCtrl">
+	  		<div class="table-responsive" >
+				<form>
+					<input ng-model="queryTitle" type="text" ng-model-options="{ debounce: 100 }"  placeholder="Filter by Title" class="form-control input-lg" autofocus>
+					<input ng-model="queryAuthor" type="text" ng-model-options="{ debounce: 100 }"  placeholder="Filter by Authors" class="form-control input-lg" autofocus>
+					<select name="privacy" ng-model="queryPrivacy" class="input-underline input-lg" placeholder="Filter by Document Privacy">
+						<option value="">All of Public and Private</option>
+						<option value="public">Public</option>
+						<option value="private">Private</option>
+					</select>
+					<select name="category" ng-model="queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
+						<option value="">All</option>
+						<option value="Mathematics">Mathematics</option>
+						<option value="Physics">Physics</option>
+						<option value="Computer Science">Computer Science</option>
+						<option value="Social Science">Social Science</option>
+					</select>
+				</form>
+			</div>
+			<div class="table-responsive" >
+				<table class="table" ng-if="downloadedDocs != null">
+					<thead>
+						<tr>
+							<td>Title</td>
+							<td>Authors</td>
+							<td>Category</td>
+							<td>Uploaded User</td>
+							<td>Privacy</td>
+							<td>Uploaded Date</td>
+							<td colspan="5">Actions</td>
+							<td colspan="5">Statistics</td>
+						</tr>
+						<tr><td align="right" colspan="16">								
+							<dir-pagination-controls pagination-id="ddoc"></dir-pagination-controls>
+						</td></tr>
+					</thead>
+					<tfoot>
+						<tr><td align="right" colspan="16">								
+							<dir-pagination-controls pagination-id="ddoc"></dir-pagination-controls>				
+						</td></tr>
+					</tfoot>
+					<tbody>
+						<tr dir-paginate-start="doc in downloadedDocs | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, privacy : queryPrivacy, category: queryCategory } track by $index"  pagination-id="ddoc" class="hoverme" >
+							<td>{{doc.title}}</td>
+							<td>{{doc.authors}}</td>
+							<td>{{doc.category}}</td>
+							<td>{{doc.uploadedUser}}</td>
+							<td>{{doc.privacy}}</td>
+							<td>{{doc.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" ng-click="userInteract(doc._id, 'view')">{{doc.fileName}}</a></span></td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" download="{{doc.fileName}}" ng-click="userInteract(doc._id, 'download')">Download</a></span></td>
+							<td><span class="text-success" ng-show="doc.liked_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(doc._id, 'like')" >Like</a></span>
+								<span class="text-success" ng-show="doc.liked_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'unlike')" >Unlike</a></span>
+							</td>
+							<td><span class="text-success" ng-show="doc.read_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(doc._id, 'read')" >Reading</a></span>
+							    <span class="text-success" ng-show="doc.read_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'stopread')" >Stop Reading</a></span></td>
+							<td><span class="text-success"><a href="" ng-click="openShare(doc._id)">Share</a></span></td>
+							<td>Viewed ({{doc.viewed_by.length}})</td>
+							<td>Downloaded ({{doc.downloaded_by.length}})</td>
+							<td>Liked ({{doc.liked_by.length}})</td>
+							<td>Reading ({{doc.read_by.length}})</td>
+							<td>Shared ({{doc.beSharedTransactions.length}})</td>
+							</td>							
+						</tr>
+						<tr dir-paginate-end><td colspan="16">{{doc.abstract}}</td></tr>
+					</tbody>
 				</table>
-				</td></tr>
-				<tr><td>
-				<table><tr><td width="70%">
-					Inaccessible set theory</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
-				</table>
-				<table><tr><td width="70%">
-					Inaccessible truths and infinite coincidences</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
-				</table>
-				<table><tr><td width="70%">
-					Storage and Recommendation Systems</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
-				</table>
-				<table><tr><td width="70%">
-					Working with Docker</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
-				</table>
-				<table><tr><td width="70%">
-					String theory</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
-				</table>
-				<table><tr><td width="70%">
-					The Myths of Universe Structure</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
-				</table>
-				<table><tr><td width="70%">				
-					Thinking as a snail</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
-				</table>
-				<table><tr><td width="70%">	
-					Muslim history</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
-				</table>
-				<table><tr><td width="70%">	
-					Islamic Principle, What is</td><td align="right" width="1%">Download</td></tr>
-					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
-				</table>					
-            </tbody>
-          </table>
-        </div>      
+			</div>
+		</div>
+		<script type="text/ng-template" id="firstDialog">
+			<div class="ngdialog-message">
+				<span>You would like to share this document to who :</span>
+				<div>
+					<form>
+						<input ng-model="shareText" type="text" placeholder="Recommend text to your friends" class="form-control" autofocus>
+						</br>
+						<ul>
+							<li ng-repeat="friend in friends"><input type="checkbox" checklist-model="selectedFriends" checklist-value="friend" checklist-comparator="compareFn"> {{friend.username}} - {{friend.email}}</li>
+						</ul>
+						</br>
+					</form>			
+				</div>
+				<div class="mt">People, whom you selected, are able to interact with the document you shared.</div>
+			</div>
+					
+			<div class="ngdialog-buttons mt">
+				<button type="button"  class="ngdialog-button ngdialog-button-primary" ng-click="submit()">Share</button>
+				<button type="button"  class="ngdialog-button" ng-click="uncheckAll()">Uncheck All</button>
+				<button type="button"  class="ngdialog-button" ng-click="checkAll()">Check All</button>
+			</div>
+		</script>
       </rd-widget-body>
     </rd-widget>
  </div>

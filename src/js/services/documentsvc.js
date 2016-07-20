@@ -15,11 +15,26 @@ function DocumentSvc($http, $localStorage, DEPLOYED_HOST){
 		removeDoc: function(data, success, error){
 			$http.post(baseUrl + '/deletedocument', data).success(success).error(error);
 		},
-/* 		getDoc: function(data, success, error) {
-			$http.get(baseUrl + '/' + data, {responseType : 'arraybuffer'}).success(success).error(error);
-		}, */
 		getDocPath: function(relative_path) {
 			return baseUrl + '/' + relative_path;
+		},
+		getMyDownloadedDocs: function(success, error) {
+			$http.get(baseUrl + '/mydownloadeddocuments').success(success).error(error);
+		},
+		getMyLikedDocs: function(success, error) {
+			$http.get(baseUrl + '/mylikeddocuments').success(success).error(error);
+		},
+		getMyReadingDocs: function(success, error) {
+			$http.get(baseUrl + '/myreadingdocuments').success(success).error(error);
+		},
+		getMySharedDocs: function(success, error) {
+			$http.get(baseUrl + '/myshareddocuments').success(success).error(error);
+		},
+		getUserReadingDocs: function(user_id, success, error) {
+			$http.get(baseUrl + '/userReadingDocs?userid=' + user_id).success(success).error(error);
+		},
+		getSharedForMeDocuments: function(success, error) {
+			$http.get(baseUrl + '/sharedForMeDocuments').success(success).error(error);
 		}
 	};
 }

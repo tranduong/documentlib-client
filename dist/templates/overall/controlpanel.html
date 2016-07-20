@@ -1,193 +1,347 @@
-<div class="row" ng-controller="AuthCtrl">
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon green pull-left">
-					<i class="fa fa-users"></i>
-				</div>
-				<div class="title">{{stats.users}}</div>
-				<div class="comment">Users</div>
-			</rd-widget-body>
-		</rd-widget>
+<div ng-controller="AuthCtrl">
+	<div class="row">
+		<div class="col-lg-12 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div ng-show="strViewingUser != null">{{strViewingUser}}</div>
+					<div ng-show="bSendFriendRequest"><input type="button" value="Request Friend" ng-click="sendFriendRequest()"></div>			
+					<div ng-show="bFriendRequestSent"><input type="button" value="Your Request has been sent" disabled="disabled"></div>			
+					<div ng-show="bResponseFriendRequest"><input type="button" value="Response to Friend Request" ng-click="sendFriendResponse()"></div>		
+					<div ng-show="bRequestFollowRequest"><input type="button" value="Follow" ng-click="confirmFollow()"></div>
+					<div ng-show="bBeFriend"><input type="button" value="Your Friend" disabled="disabled"></div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>	
 	</div>
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon orange pull-left">
-					<i class="fa fa-sitemap"></i>
-				</div>
-				<div class="title">{{stats.documents}}</div>
-				<div class="comment">Documents</div>
-			</rd-widget-body>
-		</rd-widget>
+	<div class="row">
+		<div class="col-lg-6 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon green pull-left">
+						<i class="fa fa-users"></i>
+					</div>
+					<div class="title">{{stats.users?(stats.users):"0" }}</div>
+					<div class="comment">Users</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
+		<div class="col-lg-6 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon orange pull-left">
+						<i class="fa fa-sitemap"></i>
+					</div>
+					<div class="title">{{stats.documents ? stats.documents : "0"}}</div>
+					<div class="comment">Documents</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon red pull-left">
+						<i class="fa fa-tasks"></i>
+					</div>
+					<div class="title">{{stats.relations.VIEW ? stats.relations.VIEW : "0"}}</div>
+					<div class="comment">Views</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>	
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon blue pull-left">
+						<i class="fa fa-support"></i>
+					</div>
+					<div class="title">{{stats.relations.DOWNLOAD ? stats.relations.DOWNLOAD : "0"}}</div>
+					<div class="comment">Downloads</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon blue pull-left">
+						<i class="fa fa-support"></i>
+					</div>
+					<div class="title">{{stats.relations.LIKE ? stats.relations.LIKE : "0"}}</div>
+					<div class="comment">Likes</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>	
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon blue pull-left">
+						<i class="fa fa-support"></i>
+					</div>
+					<div class="title">{{stats.relations.READ ? stats.relations.READ : "0"}}</div>
+					<div class="comment">Reading</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>		
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon blue pull-left">
+						<i class="fa fa-support"></i>
+					</div>
+					<div class="title">{{stats.relations.SHARE ? stats.relations.SHARE : "0"}}</div>
+					<div class="comment">Shared</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
 	</div>
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon red pull-left">
-					<i class="fa fa-tasks"></i>
-				</div>
-				<div class="title">2121314</div>
-				<div class="comment">Views</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>	
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon blue pull-left">
-					<i class="fa fa-support"></i>
-				</div>
-				<div class="title">1162</div>
-				<div class="comment">Downloads</div>
-			</rd-widget-body>
-		</rd-widget>
+	<div class="row">
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon orange pull-left">
+						<i class="fa fa-sitemap"></i>
+					</div>
+					<div class="title">{{currentUser.uploadedDocs.length ? currentUser.uploadedDocs.length : "0"}}</div>
+					<div class="comment">My Uploaded Documents</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon red pull-left">
+						<i class="fa fa-tasks"></i>
+					</div>
+					<div class="title">{{currentUser.viewedDocs.length ? currentUser.viewedDocs.length : "0"}}</div>
+					<div class="comment">My Document Views</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>	
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon blue pull-left">
+						<i class="fa fa-support"></i>
+					</div>
+					<div class="title">{{currentUser.downloadedDocs.length ? currentUser.downloadedDocs.length : "0"}}</div>
+					<div class="comment">My Document Downloads</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon blue pull-left">
+						<i class="fa fa-support"></i>
+					</div>
+					<div class="title">{{currentUser.likes.length ? currentUser.likes.length : "0"}}</div>
+					<div class="comment">My Liked Documents</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>	
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon blue pull-left">
+						<i class="fa fa-support"></i>
+					</div>
+					<div class="title">{{currentUser.reads.length ? currentUser.reads.length : "0"}}</div>
+					<div class="comment">My Reading Documents</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>		
+		<div class="col-lg-2 col-md-6 col-xs-12">
+			<rd-widget>
+				<rd-widget-body>
+					<div class="widget-icon blue pull-left">
+						<i class="fa fa-support"></i>
+					</div>
+					<div class="title">{{currentUser.sharedTransactions.length ? currentUser.sharedTransactions.length : "0"}}</div>
+					<div class="comment">My Shared Documents</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>		
 	</div>
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon blue pull-left">
-					<i class="fa fa-support"></i>
-				</div>
-				<div class="title">100000</div>
-				<div class="comment">Likes</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>	
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon blue pull-left">
-					<i class="fa fa-support"></i>
-				</div>
-				<div class="title">1321</div>
-				<div class="comment">Reading</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>		
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon blue pull-left">
-					<i class="fa fa-support"></i>
-				</div>
-				<div class="title">1123</div>
-				<div class="comment">Shared</div>
-			</rd-widget-body>
-		</rd-widget>
+	<div class="row">		
+		<div class="col-lg-4">
+			<rd-widget>
+				<rd-widget-header icon="fa-tasks" title="Friends">
+				</rd-widget-header>
+				<rd-widget-body classes="medium no-padding">
+					<div class="table-responsive">
+						<table class="table" ng-if="currentUser.friends != null">
+							<thead>
+								<tr>
+									<td>User Name</td>
+									<td>Email</td>
+								</tr>
+								<tr><td align="right" colspan="2">								
+									<dir-pagination-controls pagination-id="flist"></dir-pagination-controls>
+								</td></tr>
+							</thead>
+							<tfoot>
+								<tr><td align="right" colspan="2">								
+									<dir-pagination-controls pagination-id="flist"></dir-pagination-controls>				
+								</td></tr>
+							</tfoot>
+							<tbody>
+								<tr dir-paginate="friend in currentUser.friends | itemsPerPage: 5 track by $index" pagination-id="flist" class="hoverme">
+									<td><a href="#/controlpanel/{{friend._id}}">{{friend.username}}</a></td>
+									<td>{{friend.email}}</td>																			
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
+		<div class="col-lg-4">
+			<rd-widget>
+				<rd-widget-header icon="fa-tasks" title="Followers">
+				</rd-widget-header>
+				<rd-widget-body classes="medium no-padding">
+					<div class="table-responsive">
+						<table class="table" ng-if="currentUser.followers != null">
+							<thead>
+								<tr>
+									<td>User Name</td>
+									<td>Email</td>
+								</tr>
+								<tr><td align="right" colspan="2">								
+									<dir-pagination-controls pagination-id="followerlist"></dir-pagination-controls>
+								</td></tr>
+							</thead>
+							<tfoot>
+								<tr><td align="right" colspan="2">								
+									<dir-pagination-controls pagination-id="followerlist"></dir-pagination-controls>				
+								</td></tr>
+							</tfoot>
+							<tbody>
+								<tr dir-paginate="follower in currentUser.followers | itemsPerPage: 5 track by $index" pagination-id="followerlist" class="hoverme">
+									<td><a href="#/controlpanel/{{follower._id}}">{{follower.username}}</a></td>
+									<td>{{follower.email}}</td>																			
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
+		<div class="col-lg-4">
+			<rd-widget>
+				<rd-widget-header icon="fa-tasks" title="Followees">
+				</rd-widget-header>
+				<rd-widget-body classes="medium no-padding">
+					<div class="table-responsive">
+						<table class="table" ng-if="currentUser.followees != null">
+							<thead>
+								<tr>
+									<td>User Name</td>
+									<td>Email</td>
+								</tr>
+								<tr><td align="right" colspan="2">								
+									<dir-pagination-controls pagination-id="followeelist"></dir-pagination-controls>
+								</td></tr>
+							</thead>
+							<tfoot>
+								<tr><td align="right" colspan="2">								
+									<dir-pagination-controls pagination-id="followeelist"></dir-pagination-controls>				
+								</td></tr>
+							</tfoot>
+							<tbody>
+								<tr dir-paginate="followee in currentUser.followees | itemsPerPage: 5 track by $index" pagination-id="followeelist" class="hoverme">
+									<td><a href="#/controlpanel/{{followee._id}}">{{followee.username}}</a></td>
+									<td>{{followee.email}}</td>																			
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
+		<div class="col-lg-12">
+			<rd-widget>
+				<rd-widget-header icon="fa-tasks" title="Reading Documents">
+				</rd-widget-header>
+				<rd-widget-body classes="medium no-padding">
+					<div class="table-responsive">
+						<table class="table" ng-if="userReadDocs != null">
+							<thead>
+								<tr>
+									<td>Title</td>
+									<td>Authors</td>
+									<td>Category</td>
+									<td colspan="5">Actions</td>
+								</tr>
+								<tr><td align="right" colspan="8">								
+									<dir-pagination-controls pagination-id="ddoc"></dir-pagination-controls>
+								</td></tr>
+							</thead>
+							<tfoot>
+								<tr><td align="right" colspan="8">								
+									<dir-pagination-controls pagination-id="ddoc"></dir-pagination-controls>				
+								</td></tr>
+							</tfoot>
+							<tbody>
+								<tr dir-paginate="doc in userReadDocs | itemsPerPage: pageSize track by $index" pagination-id="ddoc" class="hoverme">
+									<td>{{doc.title}}</td>
+									<td>{{doc.authors}}</td>
+									<td>{{doc.category}}</td>
+									<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" ng-click="userInteract(doc._id, 'view')">{{doc.fileName}}</a></span></td>
+									<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" download="{{doc.fileName}}" ng-click="userInteract(doc._id, 'download')">Download</a></span></td>
+									<td><span class="text-success" ng-show="doc.liked_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(doc._id, 'like')">Like</a></span>
+										<span class="text-success" ng-show="doc.liked_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'unlike')">Unlike</a></span>
+									</td>
+									<td><span class="text-success" ng-show="doc.read_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'stopread')">Stop Reading</a></span></td>
+									<td><span class="text-success"><a href="" ng-click="openShare(doc._id)">Share</a></span></td>								
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<script type="text/ng-template" id="firstDialog">
+						<div class="ngdialog-message">
+							<span>You would like to share this document to who :</span>
+							<div>
+								<form>
+									<input ng-model="shareText" type="text" placeholder="Recommend text to your friends" class="form-control" autofocus>
+									</br>
+									<ul>
+										<li ng-repeat="friend in friends"><input type="checkbox" checklist-model="selectedFriends" checklist-value="friend" checklist-comparator="compareFn"> {{friend.username}} - {{friend.email}}</li>
+									</ul>
+									</br>
+								</form>			
+							</div>
+							<div class="mt">People, whom you selected, are able to interact with the document you shared.</div>
+						</div>
+								
+						<div class="ngdialog-buttons mt">
+							<button type="button"  class="ngdialog-button ngdialog-button-primary" ng-click="submit()">Share</button>
+							<button type="button"  class="ngdialog-button" ng-click="uncheckAll()">Uncheck All</button>
+							<button type="button"  class="ngdialog-button" ng-click="checkAll()">Check All</button>
+						</div>
+				</script>
+				</rd-widget-body>
+			</rd-widget>
+		</div>
+		<div class="col-lg-12">
+			<rd-widget>
+				<rd-widget-header icon="fa-users" title="Top Suggested Books">
+					<input type="text" placeholder="Search" class="form-control input-sm">
+				</rd-widget-header>
+				<rd-widget-body classes="medium no-padding">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<tr><th class="text-center">ID</th><th>Title</th><th>Author</th><th>Action</th></tr>
+							</thead>
+							<tbody>
+								<tr><td class="text-center">1</td><td>Walking to the Moon</td><td>Kate Cole-Adams</td><td>View | Download | Reading | Like | Share</td></tr>
+								<tr><td class="text-center">2</td><td>Live Long, Die Short: A Guide to Authentic Health and Successful Aging</td><td>Roger Landry</td><td>View | Download | Reading | Like | Share</td></tr>
+								<tr><td class="text-center">3</td><td>How the Universe Got Its Spots: Diary of a Finite Time in a Finite Space</td><td>Janna Levin, Oksana Kushnir</td><td>View | Download | Reading | Like | Share</td></tr>
+							</tbody>
+						</table>
+					</div>
+				</rd-widget-body>
+			<rd-widget>
+		</rd-widget></rd-widget>
+		</div>
 	</div>
-	<div></div>
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon orange pull-left">
-					<i class="fa fa-sitemap"></i>
-				</div>
-				<div class="title">{{stats.mydocs}}</div>
-				<div class="comment">My Uploaded Documents</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon red pull-left">
-					<i class="fa fa-tasks"></i>
-				</div>
-				<div class="title">1234</div>
-				<div class="comment">My Document Views</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>	
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon blue pull-left">
-					<i class="fa fa-support"></i>
-				</div>
-				<div class="title">116</div>
-				<div class="comment">My Document Downloads</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon blue pull-left">
-					<i class="fa fa-support"></i>
-				</div>
-				<div class="title">100</div>
-				<div class="comment">My Liked Documents</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>	
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon blue pull-left">
-					<i class="fa fa-support"></i>
-				</div>
-				<div class="title">123</div>
-				<div class="comment">My Reading Documents</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>		
-	<div class="col-lg-3 col-md-6 col-xs-12">
-		<rd-widget>
-			<rd-widget-body>
-				<div class="widget-icon blue pull-left">
-					<i class="fa fa-support"></i>
-				</div>
-				<div class="title">123</div>
-				<div class="comment">My Shared Documents</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>		
-</div>
-<div class="row">
-	<div class="col-lg-6">
-		<rd-widget>
-      		<rd-widget-header icon="fa-tasks" title="Reading Documents">
-      		</rd-widget-header>
-      		<rd-widget-body classes="medium no-padding">
-				<div class="table-responsive">
-					<table class="table">
-						<tbody>
-							<tr><td>Perception theory</td><td>View | Download | Reading | Like | Share</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-							<tr><td>Inaccessible set theory</td><td>View | Download | Reading | Like | Share</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-							<tr><td>Inaccessible truths and infinite coincidences</td><td>View | Download | Reading | Like | Share</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-							<tr><td>Storage and Recommendation Systems</td><td>View | Download | Reading | Like | Share</td><td><span tooltip="Not Accessible" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-							<tr><td>Working with Docker</td><td>View | Download | Reading | Like | Share</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-							<tr><td>String theory</td><td>View | Download | Reading | Like | Share</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-							<tr><td>The Myths of Universe Structure</td><td>View | Download | Reading | Like | Share</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-							<tr><td>Thinking as a snail</td><td>View | Download | Reading | Like | Share</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-							<tr><td>Muslim history</td><td>View | Download | Reading | Like | Share</td><td><span tooltip="Not Accessible" class="text-danger"><i class="fa fa-warning"></i></span></td></tr>
-							<tr><td>Islamic Principle, What is</td><td>View | Download | Reading | Like | Share</td><td><span class="text-success"><i class="fa fa-check"></i></span></td></tr>
-						</tbody>
-					</table>
-				</div>
-			</rd-widget-body>
-		</rd-widget>
-	</div>
-	<div class="col-lg-6">
-		<rd-widget>
-			<rd-widget-header icon="fa-users" title="Top Suggested Books">
-				<input type="text" placeholder="Search" class="form-control input-sm">
-			</rd-widget-header>
-			<rd-widget-body classes="medium no-padding">
-				<div class="table-responsive">
-					<table class="table">
-						<thead>
-							<tr><th class="text-center">ID</th><th>Title</th><th>Author</th><th>Action</th></tr>
-						</thead>
-						<tbody>
-							<tr><td class="text-center">1</td><td>Walking to the Moon</td><td>Kate Cole-Adams</td><td>View | Download | Reading | Like | Share</td></tr>
-							<tr><td class="text-center">2</td><td>Live Long, Die Short: A Guide to Authentic Health and Successful Aging</td><td>Roger Landry</td><td>View | Download | Reading | Like | Share</td></tr>
-							<tr><td class="text-center">3</td><td>How the Universe Got Its Spots: Diary of a Finite Time in a Finite Space</td><td>Janna Levin, Oksana Kushnir</td><td>View | Download | Reading | Like | Share</td></tr>
-						</tbody>
-					</table>
-        		</div>
-			</rd-widget-body>
-		<rd-widget>
-	</rd-widget></rd-widget></div>
 </div>

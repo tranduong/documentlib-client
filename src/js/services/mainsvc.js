@@ -47,14 +47,26 @@ function MainSvc($http, $localStorage, DEPLOYED_HOST){
 		me: function(success, error) {
 			$http.get(baseUrl + '/me').success(success).error(error);
 		},
-		getStatistic: function(success, error) {
-			$http.get(baseUrl + '/stats').success(success).error(error);
+		getUserInformation: function(user_id, success, error) {
+			$http.get(baseUrl + '/getUserInformation?userid=' + user_id).success(success).error(error);
+		},
+		getStatistic: function(data, success, error) {
+			$http.get(baseUrl + '/stats?uid=' + data).success(success).error(error);
 		},		
 		logout: function(success) {
 			console.log("Logout has been called");
 			delete $localStorage.token;
 			delete $localStorage.myDetail;
 			success();
+		},
+		sendFriendRequest:  function(data, success, error) {
+			$http.post(baseUrl + '/requestFriend', data).success(success).error(error);
+		},
+		sendFriendResponse:  function(data, success, error) {
+			$http.post(baseUrl + '/requestResponse', data).success(success).error(error);
+		},
+		sendConfirmFollow:  function(data, success, error) {
+			$http.post(baseUrl + '/confirmFollow', data).success(success).error(error);
 		}
 	};
 }

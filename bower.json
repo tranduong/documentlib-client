@@ -33,7 +33,9 @@
     "angular-route": "^1.5.6",
     "angular-breadcrumb": "^0.4.1",
     "angularUtils-pagination": "angular-utils-pagination#^0.11.1",
-    "gulp": "^3.9.1"
+    "gulp": "^3.9.1",
+    "ng-dialog": "ngDialog#^0.6.2",
+    "checklist-model": "^0.10.0"
   },
   "repository": {
     "type": "git",

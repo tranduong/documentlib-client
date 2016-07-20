@@ -1,0 +1,94 @@
+<div class="row">
+    <rd-widget>
+	  <rd-widget-header icon="fa-tasks" title="The books are shared for you">	  
+      </rd-widget-header>
+      <rd-widget-body>        
+		<div  ng-controller="ShareForMeCtrl">
+	  		<div class="table-responsive" >
+				<form>
+					<input ng-model="queryTitle" type="text" ng-model-options="{ debounce: 100 }"  placeholder="Filter by Title" class="form-control input-lg" autofocus>
+					<input ng-model="queryAuthor" type="text" ng-model-options="{ debounce: 100 }"  placeholder="Filter by Authors" class="form-control input-lg" autofocus>
+					<select name="category" ng-model="queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
+						<option value="">All</option>
+						<option value="Mathematics">Mathematics</option>
+						<option value="Physics">Physics</option>
+						<option value="Computer Science">Computer Science</option>
+						<option value="Social Science">Social Science</option>
+					</select>
+				</form>
+			</div>
+			<div class="table-responsive" >
+				<table class="table" ng-if="sharedTransactions != null">
+					<thead>
+						<tr>
+							<td>From User</td>
+							<td>Shared Text</td>
+							<td>Title</td>
+							<td>Authors</td>
+							<td>Category</td>
+							<td colspan="5">Actions</td>
+							<td colspan="5">Statistics</td>
+						</tr>
+						<tr><td align="right" colspan="14">								
+							<dir-pagination-controls pagination-id="sfmdoc"></dir-pagination-controls>
+						</td></tr>
+					</thead>
+					<tfoot>
+						<tr><td align="right" colspan="14">								
+							<dir-pagination-controls pagination-id="sfmdoc"></dir-pagination-controls>				
+						</td></tr>
+					</tfoot>
+					<tbody>
+						<tr dir-paginate-start="sharedTransaction in sharedTransactions | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, category: queryCategory } track by $index"  pagination-id="sfmdoc" class="hoverme" >
+							<td><a href="#/controlpanel/{{sharedTransaction[0].mongo_id}}">{{sharedTransaction[0].username ? sharedTransaction[0].username : "no name"}}</a> shared "{{sharedTransaction[1].sharedText}}" to <a href="#/controlpanel/{{myid}}">you</a> </td>
+							<td>{{sharedTransaction[1].time | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
+							<td>{{sharedTransaction[2].title}}</td>
+							<td>{{sharedTransaction[2].authors}}</td>
+							<td>{{sharedTransaction[2].category}}</td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(sharedTransaction[2].uploadedPath)}}" target="_blank" ng-click="userInteract(sharedTransaction[2]._id, 'view')">{{sharedTransaction[2].fileName}}</a></span></td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(sharedTransaction[2].uploadedPath)}}" target="_blank" download="{{sharedTransaction[2].fileName}}" ng-click="userInteract(sharedTransaction[2]._id, 'download')">Download</a></span></td>
+							<td><span class="text-success" ng-show="sharedTransaction[2].liked_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(sharedTransaction[2]._id, 'like')" >Like</a></span>
+								<span class="text-success" ng-show="sharedTransaction[2].liked_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(sharedTransaction[2]._id, 'unlike')" >Unlike</a></span>
+							</td>
+							<td><span class="text-success" ng-show="sharedTransaction[2].read_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(sharedTransaction[2]._id, 'read')" >Reading</a></span>
+								<span class="text-success" ng-show="sharedTransaction[2].read_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(sharedTransaction[2]._id, 'stopread')" >Stop Reading</a></span>
+							</td>
+							<td><span class="text-success"><a href="" ng-click="openShare(sharedTransaction[2]._id)">Share</a></span></td>							
+							<td>Viewed ({{sharedTransaction[2].viewed_by.length}})</td>
+							<td>Downloaded ({{sharedTransaction[2].downloaded_by.length}})</td>
+							<td>Liked ({{sharedTransaction[2].liked_by.length}})</td>
+							<td>Reading ({{sharedTransaction[2].read_by.length}})</td>
+							<td>Shared ({{sharedTransaction[2].beSharedTransactions.length}})</td>
+						</tr>
+						<tr dir-paginate-end><td colspan="2"></td><td colspan="13">{{sharedTransaction[2].abstract}}</td></tr>
+					</tbody>
+				</table>
+			</div>			
+			<script type="text/ng-template" id="firstDialog">
+				<div class="ngdialog-message">
+					<span>You would like to share this document to who :</span>
+					<div>
+						<form>
+							<input ng-model="shareText" type="text" placeholder="Recommend text to your friends" class="form-control" autofocus>
+							</br>
+							<ul>
+								<li ng-repeat="friend in friends"><input type="checkbox" checklist-model="selectedFriends" checklist-value="friend" checklist-comparator="compareFn"> {{friend.username}} - {{friend.email}}</li>
+							</ul>
+							</br>
+						</form>			
+					</div>
+					<div class="mt">People, whom you selected, are able to interact with the document you shared.</div>
+				</div>
+						
+				<div class="ngdialog-buttons mt">
+					<button type="button"  class="ngdialog-button ngdialog-button-primary" ng-click="submit()">Share</button>
+					<button type="button"  class="ngdialog-button" ng-click="uncheckAll()">Uncheck All</button>
+					<button type="button"  class="ngdialog-button" ng-click="checkAll()">Check All</button>
+				</div>
+			</script>
+		</div>
+      </rd-widget-body>
+    </rd-widget>
+ </div>
+
+ 

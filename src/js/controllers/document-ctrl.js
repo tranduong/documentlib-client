@@ -2,87 +2,14 @@
 
 angular
   .module('SDLMSys')
-  .controller('DocumentCtrl', ['$scope', 'Upload', '$timeout', '$localStorage', 'DocumentSvc', 'SearchSvc', 'PAGINATION', DocumentCtrl]);
+  .controller('DocumentCtrl', ['$scope', '$localStorage', 'Upload', '$timeout', 'DocumentSvc', 'UserActSvc', 'ngDialog', 'PAGINATION', DocumentCtrl]);
   
-function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, SearchSvc, PAGINATION) {
+function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, UserActSvc, ngDialog, PAGINATION) {
 	console.log("Constructing DocumentCtrl...");
-/* 	$scope.$watch('query',function(value)
-	{
-		$scope.isSearching = checkSwitcher();
-		$scope.isLoading = true;
 
-		fetch(value, $scope.searchCategory);
-				
-		$scope.isLoading = false;
-	});
-	
-	$scope.$watch('searchCategory',function(value)
-	{
-		$scope.isSearching = checkSwitcher();
-		$scope.isLoading = true;
-
-		fetch($scope.query, $scope.searchCategory);
-				
-		$scope.isLoading = false;
-	});
-	
-	function checkSwitcher(){
-		if ($scope.query === '' && ($scope.searchCategory === 'all' || $scope.searchCategory === '')) 
-			return false;
-		else 
-			return true;
-	}
-	
-	function clearPreviousResult()
-	{
-		$scope.errorLog = "";
-		$scope.resultLog = "";		
-		$scope.totalDocs = 0;
-		$scope.resultDocs = [];
-	}
-	
-    function fetch(query, searchCategory) {
-		
-		var searchPrivacy = "pubnpri";
-		var searchDemoMode = 1;
-		clearPreviousResult();
-		
-		SearchSvc.searchData(query, searchPrivacy, searchCategory, searchDemoMode, 0, $scope.pageSize, function(response){
-			console.log(response);
-			if ( response.status == 200 ) // successful 
-			{
-				if (response.data)
-				{
-					$scope.resultDocs = [];
-					var numbers = response.data.responses.length;
-					var totalCount = 0;
-
-					for (i = 0; i < numbers; i++)
-					{
-						if (response.data.responses[i].error)
-						{
-							$scope.errorLog = $scope.errorLog + response.data.responses[i].error.index + " - " + response.data.responses[i].error.reason;
-							$scope.resultLog = "There is no document found";
-						}
-						else{
-							$scope.resultDocs = $scope.resultDocs.concat(response.data.responses[i].hits.hits);
-							totalCount = totalCount + response.data.responses[i].hits.total;					
-						}
-					}
-					$scope.totalDocs = totalCount;
-				}
-			}
-			else{
-				console.log(response.statusText);
-				$scope.errorLog = response.statusText;
-			}			
-		},function(err){
-			$scope.errorLog = err;
-		});
-	} */
 	// list of uploaded documents
 	$scope.uploadedDocs = [];
-	
+	$scope.myid = $localStorage.myDetail._id; // user for recognize read, like activity in uploadeddocumentlist.html
     // document information parts
 	$scope.title = '';
 	$scope.authors  = '';
@@ -188,7 +115,7 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, Sea
 		}
     }
 		 
-    function activate(DocumentSvc, needTimeout) {
+    function activate(DocumentSvc) {
 		//console.log("Activated Controller");
 		DocumentSvc.getMines(function(res){
 			$scope.uploadedDocs = (res.data);		
@@ -314,7 +241,7 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, Sea
 		document.body.removeChild(a);
 	}
 	
-	// Register wath the variable
+	// Register watch the variable
 	$scope.$watch('isSucceedUpload', function () {
 		//console.log("come here 10!");
 		$scope.isLoading = true;
@@ -327,4 +254,30 @@ function DocumentCtrl($scope,  Upload, $timeout, $localStorage, DocumentSvc, Sea
 	$scope.numberOfPages = function(){
         return Math.ceil($scope.uploadedDocs / $scope.pageSize);                
     }
+	
+	$scope.userInteract = function(id, action, data){
+		console.log("Document Id: " + id + " - with user action : " + action + " - data : " + data);
+		var theData = { doc_id : id, the_action : action, the_data : data};
+		UserActSvc.interactDocument(theData, function(success){
+			console.log(success);
+			setTimeout(function(){
+					$scope.$apply(function(){					
+						activate(DocumentSvc);
+					})
+				}, 500);
+		}, function(err){
+			console.log(err);
+		});;
+	}
+	
+	$scope.openShare = function (docid) {
+		$scope.doc_id = docid;
+		ngDialog.open({
+			template: 'firstDialog',
+			controller: 'PopupShareCtrl',
+			className: 'ngdialog-theme-default ngdialog-theme-custom',
+			scope: $scope
+		});
+	};	
+
 }

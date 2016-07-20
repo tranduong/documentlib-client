@@ -2,12 +2,13 @@
 
 angular
   .module('SDLMSys')
-  .controller('SearchCtrl', ['$scope', '$filter', '$timeout', '$localStorage', 'SearchSvc', 'DocumentSvc', 'Utils', 'PAGINATION', SearchCtrl]);
+  .controller('SearchCtrl', ['$scope', '$localStorage', 'SearchSvc', 'DocumentSvc', 'UserActSvc', 'MainSvc', 'ngDialog', 'PAGINATION', SearchCtrl]);
   
-function SearchCtrl($scope, $filter, $timeout, $localStorage, SearchSvc, DocumentSvc, Utils, PAGINATION ) {
+function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, MainSvc, ngDialog, PAGINATION ) {
 
 	console.log("Constructing SearchCtrl...");
 	$scope.resultDocs = [];
+	
 	$scope.errorLog = "";
 	$scope.submit = function()
 	{
@@ -106,7 +107,7 @@ function SearchCtrl($scope, $filter, $timeout, $localStorage, SearchSvc, Documen
 	function getPageData(thePage)
 	{
 		$scope.isLoading = true;
-		SearchSvc.searchData(query, $scope.privacy, $scope.category, $scope.demomode,(thePage - 1)*$scope.pageSize, $scope.pageSize, function(response){
+		SearchSvc.searchData($scope.query, $scope.privacy, $scope.category, $scope.demomode,(thePage - 1)*$scope.pageSize, $scope.pageSize, function(response){
 			console.log(response);
 			if ( response.status == 200 ) // successful 
 			{
@@ -154,6 +155,46 @@ function SearchCtrl($scope, $filter, $timeout, $localStorage, SearchSvc, Documen
 		// console.log("come here 8!");
 		return DocumentSvc.getDocPath(path);
 	}
+	
+
+	
+	$scope.me = function(){		
+		MainSvc.me(function(res){
+			console.log(res);
+			$localStorage.myDetail = res.data;
+			$scope.myDetail = $localStorage.myDetail;
+			console.log($localStorage.myDetail);
+		}, function() {
+			$rootScope.error = 'Failed to fetch details';
+		});
+	};
+	
+	$scope.userInteract = function(id, action, data){
+		console.log("Document Id: " + id + " - with user action : " + action + " - data : " + data);
+		var theData = { doc_id : id, the_action : action, the_data : data};
+		UserActSvc.interactDocument(theData, function(success){
+			console.log(success);
+			setTimeout(function(){
+					$scope.$apply(function(){					
+						$scope.me();
+					})
+				}, 500);			
+		}, function(err){
+			console.log(err);
+		});;
+	}
+	
+	$scope.openShare = function (docid) {
+		$scope.doc_id = docid;
+		ngDialog.open({
+			template: 'firstDialog',
+			controller: 'PopupShareCtrl',
+			className: 'ngdialog-theme-default ngdialog-theme-custom',
+			scope: $scope
+		});
+	};	
+	
+	$scope.me();
 }
 
 
