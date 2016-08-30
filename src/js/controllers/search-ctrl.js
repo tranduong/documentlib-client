@@ -2,9 +2,9 @@
 
 angular
   .module('SDLMSys')
-  .controller('SearchCtrl', ['$scope', '$localStorage', 'SearchSvc', 'DocumentSvc', 'UserActSvc', 'MainSvc', 'ngDialog', 'PAGINATION', SearchCtrl]);
+  .controller('SearchCtrl', ['$scope', '$localStorage', 'SearchSvc', 'DocumentSvc', 'UserActSvc', 'MainSvc', 'RecommendSvc', 'ngDialog', 'PAGINATION', SearchCtrl]);
   
-function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, MainSvc, ngDialog, PAGINATION ) {
+function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, MainSvc, RecommendSvc, ngDialog, PAGINATION ) {
 
 	console.log("Constructing SearchCtrl...");
 	$scope.resultDocs = [];
@@ -63,9 +63,9 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
 	}
 	
     function fetch(query) {
-		
+		//console.log(query);
 		clearPreviousResult();
-		
+		// Compute the items from the query by applying tf-idf ( default in elastic search )
 		SearchSvc.searchData(query, $scope.privacy, $scope.category, $scope.demomode, 0, $scope.pageSize, function(response){
 			console.log(response);
 			if ( response.status == 200 ) // successful 
@@ -89,6 +89,53 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
 						}
 					}
 					$scope.totalDocs = totalCount;
+					// From the current user, search by a breadth-first search in neo4j with max-deep 5
+					// From the items, get their ids and searching them by a breadth-first search in neo4j with max-deep 5.
+					limit = 30; // Top-30 Items
+					
+					SearchSvc.searchData(query, $scope.privacy, $scope.category, $scope.demomode, 0, limit, function(response){
+						console.log(response);
+						if ( response.status == 200 ) // successful 
+						{
+							if (response.data)
+							{
+								totalCount = 0;
+								var docs = [];
+								var numbers = response.data.responses.length;
+								for (i = 0; i < numbers; i++)
+								{
+									if (response.data.responses[i].error === 'undefined')
+									{
+										docs = docs.concat(response.data.responses[i].hits.hits);
+										totalCount = totalCount + response.data.responses[i].hits.total;					
+									}
+								}
+								
+								if ( totalCount < limit)
+								{
+									limit = totalCount;
+								}
+								
+								var topN = [];
+								for (j = 0; j < limit; j++)
+								{
+									var doc = {};
+									doc.mongo_id = docs[j]._source.id;
+									doc.score = docs[j]._score;
+									topN.push(doc);
+								}
+								
+								console.log(topN);
+								RecommendSvc.recommendList(topN, false, function(res){
+									console.log(res);
+								}, function(err){
+									console.log(err);
+								});
+							}
+						}
+					}, function(err){
+						console.log(err);
+					});
 				}
 			}
 			else{
@@ -151,9 +198,9 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
     $scope.pageSize = PAGINATION.ITEMS_PER_PAGE;
 	$scope.totalDocs = 0;
 	
-	$scope.getServerDocumentPath = function(path){
-		// console.log("come here 8!");
-		return DocumentSvc.getDocPath(path);
+	$scope.getServerDocumentPath = function(path, bDownload){
+		//console.log("come here 8 : " + path);
+		return DocumentSvc.getDocPathNew(path, bDownload);
 	}
 	
 

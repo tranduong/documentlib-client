@@ -86,8 +86,8 @@
 							<td>{{doc.category}}</td>
 							<td>{{doc.privacy}}</td>
 							<td>{{doc.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
-							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" ng-click="userInteract(doc._id, 'view')">{{doc.fileName}}</a></span></td>
-							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" download="{{doc.fileName}}" ng-click="userInteract(doc._id, 'download')">Download</a></span></td>							
+							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._id, 'view')">{{doc.fileName}}</a></span></td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath, true)}}" target="_blank" download="{{doc.fileName}}" ng-click="userInteract(doc._id, 'download')">Download</a></span></td>							
 							<td><span class="text-success" ng-show="doc.read_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(doc._id, 'read')" >Reading</a></span>
 								<span class="text-success" ng-show="doc.read_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'stopread')" >Stop Reading</a></span>
 							</td>

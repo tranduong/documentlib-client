@@ -41,8 +41,8 @@
 							<td>{{doc.title}}</td>
 							<td>{{doc.authors}}</td>
 							<td>{{doc.category}}</td>
-							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" ng-click="userInteract(doc._id, 'view')">{{doc.fileName}}</a></span></td>
-							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath)}}" target="_blank" download="{{doc.fileName}}" ng-click="userInteract(doc._id, 'download')">Download</a></span></td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._id, 'view')">{{doc.fileName}}</a></span></td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath, true)}}" target="_blank" download="{{doc.fileName}}" ng-click="userInteract(doc._id, 'download')">Download</a></span></td>
 							<td><span class="text-success" ng-show="doc.liked_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(doc._id, 'like')">Like</a></span>
 								<span class="text-success" ng-show="doc.liked_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'unlike')">Unlike</a></span>
 							</td>

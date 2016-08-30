@@ -45,8 +45,8 @@
 							<td>{{sharedTransaction[2].title}}</td>
 							<td>{{sharedTransaction[2].authors}}</td>
 							<td>{{sharedTransaction[2].category}}</td>
-							<td><span class="text-success"><a href="{{getServerDocumentPath(sharedTransaction[2].uploadedPath)}}" target="_blank" ng-click="userInteract(sharedTransaction[2]._id, 'view')">{{sharedTransaction[2].fileName}}</a></span></td>
-							<td><span class="text-success"><a href="{{getServerDocumentPath(sharedTransaction[2].uploadedPath)}}" target="_blank" download="{{sharedTransaction[2].fileName}}" ng-click="userInteract(sharedTransaction[2]._id, 'download')">Download</a></span></td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(sharedTransaction[2].uploadedPath, false)}}" target="_blank" ng-click="userInteract(sharedTransaction[2]._id, 'view')">{{sharedTransaction[2].fileName}}</a></span></td>
+							<td><span class="text-success"><a href="{{getServerDocumentPath(sharedTransaction[2].uploadedPath, true)}}" target="_blank" download="{{sharedTransaction[2].fileName}}" ng-click="userInteract(sharedTransaction[2]._id, 'download')">Download</a></span></td>
 							<td><span class="text-success" ng-show="sharedTransaction[2].liked_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(sharedTransaction[2]._id, 'like')" >Like</a></span>
 								<span class="text-success" ng-show="sharedTransaction[2].liked_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(sharedTransaction[2]._id, 'unlike')" >Unlike</a></span>
 							</td>

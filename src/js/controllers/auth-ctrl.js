@@ -335,9 +335,9 @@ angular
 		}
 	}
 	
-	$scope.getServerDocumentPath = function(path){
+	$scope.getServerDocumentPath = function(path, bDownload){
 		// console.log("come here 8!");
-		return DocumentSvc.getDocPath(path);
+		return DocumentSvc.getDocPath(path, bDownload);
 	}
 	
 	$scope.userInteract = function(id, action, data){

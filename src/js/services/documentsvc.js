@@ -15,8 +15,16 @@ function DocumentSvc($http, $localStorage, DEPLOYED_HOST){
 		removeDoc: function(data, success, error){
 			$http.post(baseUrl + '/deletedocument', data).success(success).error(error);
 		},
-		getDocPath: function(relative_path) {
-			return baseUrl + '/' + relative_path;
+		getDocPathNew: function(relative_path) {
+			return baseUrl + "/" + relative_path;
+		},
+		getDocPath: function(relative_path, bDownload) {
+			action = "view";
+			if (bDownload)
+			{
+				action = "download";
+			}
+			return baseUrl + "/" + action + "?p=" + relative_path;
 		},
 		getMyDownloadedDocs: function(success, error) {
 			$http.get(baseUrl + '/mydownloadeddocuments').success(success).error(error);

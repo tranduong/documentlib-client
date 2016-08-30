@@ -67,7 +67,7 @@
 								<td>
 									<table width="100%"><tr><td width="70%">
 										{{doc._source.title}}</td>
-											<td align="right"><span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath)}}" target="_blank" ng-click="userInteract(doc._source.id, 'view')">View</a></span> | <span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath)}}" target="_blank" download="{{doc._source.fileName}}" ng-click="userInteract(doc._source.id, 'download')">Download </a></span> | 															  
+											<td align="right"><span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._source.id, 'view')">View</a></span> | <span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, true)}}" target="_blank" download="{{doc._source.fileName}}" ng-click="userInteract(doc._source.id, 'download')">Download </a></span> | 															  
 															  <span class="text-success" ng-show="myDetail.likes.length == 0 || myDetail.likes.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'like');"> Like </a></span><span class="text-success" ng-show="myDetail.likes.length > 0 && myDetail.likes.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'unlike');"> Unlike </a></span> | 
 															  <span class="text-success" ng-show="myDetail.reads.length == 0 || myDetail.reads.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'read')"> Reading </a></span><span class="text-success" ng-show="myDetail.reads.length > 0 && myDetail.reads.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'stopread')"> Stop Reading </a></span>| 
 															  <span class="text-success" ><a href="" ng-click="openShare(doc._source.id)"> Share </a></span>
@@ -81,7 +81,95 @@
 						</tbody>
 					  </table>					
 				</div>				
-			</div>			
+			</div>
+			<div ng-switch="isLoading">
+				<div class="table-responsive" ng-switch-when="false">
+					Combined Recommendation without skyline
+					  <table class="table" >
+						<thead>
+							<tr><td>
+								<table width="100%">
+									<tr><td width="70%">Title<br/>Authors<br/>Publisher - Publish Date</td>
+										<td>Actions<br/>Category<br/>Uploaded Time</td>
+									</tr>
+									<tr><td colspan="2">Abstracts</td>								
+									</tr>
+								</table>
+							</td>
+							</tr>
+							<tr><td align="right">								
+								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="woskysdoc" ></dir-pagination-controls>
+							</td></tr>
+						</thead>
+ 						<tfoot>
+							<tr><td align="right">								
+								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="woskysdoc" ></dir-pagination-controls>
+							</td></tr>
+						</tfoot>
+						<tbody>							
+							<tr dir-paginate="doc in resultDocs | itemsPerPage: pageSize" total-items="totalDocs" current-page="pagination.current" pagination-id="woskysdoc" class="hoverme">
+								<td>
+									<table width="100%"><tr><td width="70%">
+										{{doc._source.title}}</td>
+											<td align="right"><span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._source.id, 'view')">View</a></span> | <span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, true)}}" target="_blank" download="{{doc._source.fileName}}" ng-click="userInteract(doc._source.id, 'download')">Download </a></span> | 															  
+															  <span class="text-success" ng-show="myDetail.likes.length == 0 || myDetail.likes.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'like');"> Like </a></span><span class="text-success" ng-show="myDetail.likes.length > 0 && myDetail.likes.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'unlike');"> Unlike </a></span> | 
+															  <span class="text-success" ng-show="myDetail.reads.length == 0 || myDetail.reads.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'read')"> Reading </a></span><span class="text-success" ng-show="myDetail.reads.length > 0 && myDetail.reads.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'stopread')"> Stop Reading </a></span>| 
+															  <span class="text-success" ><a href="" ng-click="openShare(doc._source.id)"> Share </a></span>
+											</td></tr>
+										<tr><td>{{doc._source.authors}}</td><td>{{doc._source.category}}</td></tr>
+										<tr><td>{{doc._source.publisher}} - {{doc._source.publishedDate}}</td><td>{{doc._source.uploadedUser}} uploaded at {{doc._source.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td></tr>
+										<tr colspan="2"><td>{{doc._source.abstract}}</td></tr>
+									</table>
+								</td>
+							</tr>						
+						</tbody>
+					  </table>					
+				</div>				
+			</div>	
+			<div ng-switch="isLoading">
+				<div class="table-responsive" ng-switch-when="false">
+					Combined Recommendation with Skyline
+					  <table class="table" >
+						<thead>
+							<tr><td>
+								<table width="100%">
+									<tr><td width="70%">Title<br/>Authors<br/>Publisher - Publish Date</td>
+										<td>Actions<br/>Category<br/>Uploaded Time</td>
+									</tr>
+									<tr><td colspan="2">Abstracts</td>								
+									</tr>
+								</table>
+							</td>
+							</tr>
+							<tr><td align="right">								
+								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="wskysdoc" ></dir-pagination-controls>
+							</td></tr>
+						</thead>
+ 						<tfoot>
+							<tr><td align="right">								
+								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="wskysdoc" ></dir-pagination-controls>
+							</td></tr>
+						</tfoot>
+						<tbody>							
+							<tr dir-paginate="doc in resultDocs | itemsPerPage: pageSize" total-items="totalDocs" current-page="pagination.current" pagination-id="wskysdoc" class="hoverme">
+								<td>
+									<table width="100%"><tr><td width="70%">
+										{{doc._source.title}}</td>
+											<td align="right"><span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._source.id, 'view')">View</a></span> | <span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, true)}}" target="_blank" download="{{doc._source.fileName}}" ng-click="userInteract(doc._source.id, 'download')">Download </a></span> | 															  
+															  <span class="text-success" ng-show="myDetail.likes.length == 0 || myDetail.likes.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'like');"> Like </a></span><span class="text-success" ng-show="myDetail.likes.length > 0 && myDetail.likes.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'unlike');"> Unlike </a></span> | 
+															  <span class="text-success" ng-show="myDetail.reads.length == 0 || myDetail.reads.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'read')"> Reading </a></span><span class="text-success" ng-show="myDetail.reads.length > 0 && myDetail.reads.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'stopread')"> Stop Reading </a></span>| 
+															  <span class="text-success" ><a href="" ng-click="openShare(doc._source.id)"> Share </a></span>
+											</td></tr>
+										<tr><td>{{doc._source.authors}}</td><td>{{doc._source.category}}</td></tr>
+										<tr><td>{{doc._source.publisher}} - {{doc._source.publishedDate}}</td><td>{{doc._source.uploadedUser}} uploaded at {{doc._source.uploadedDate | date:'dd/MM/yyyy - hh:mm:ss a'}}</td></tr>
+										<tr colspan="2"><td>{{doc._source.abstract}}</td></tr>
+									</table>
+								</td>
+							</tr>						
+						</tbody>
+					  </table>					
+				</div>				
+			</div>	
 		</div>
 		<script type="text/ng-template" id="firstDialog">
 			<div class="ngdialog-message">

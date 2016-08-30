@@ -36,9 +36,9 @@ function LikeCtrl($scope, $localStorage, DocumentSvc, UserActSvc, ngDialog, PAGI
 	activate(DocumentSvc);
 
 	
-	$scope.getServerDocumentPath = function(path){
+	$scope.getServerDocumentPath = function(path, bDownload){
 		// console.log("come here 8!");
-		return DocumentSvc.getDocPath(path);
+		return DocumentSvc.getDocPath(path, bDownload);
 	}
 	
 	$scope.currentPage = 0;

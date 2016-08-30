@@ -14,6 +14,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 	$scope.title = '';
 	$scope.authors  = '';
 	$scope.abstract  = '';
+	$scope.keywords  = '';
 	$scope.publisher  = '';
 	$scope.publishedDate  = '';	
 	$scope.privacy 	= '';
@@ -69,6 +70,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 					title: 		$scope.title,
 					authors: 	$scope.authors,
 					abstract: 	$scope.abstract,
+					keywords: 	$scope.keywords,
 					publisher: 	$scope.publisher,
 					publishedDate: 	$scope.publishedDate,
 					privacy: 		$scope.privacy,
@@ -178,6 +180,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 		$scope.title 	= doc.title;
 		$scope.authors 	= doc.authors;
 		$scope.abstract = doc.abstract;
+		$scope.keywords = doc.keywords;
 		$scope.publisher 	 = doc.publisher;
 		$scope.publishedDate = doc.publishedDate;
 		$scope.privacy 	 	 = doc.privacy;
@@ -188,6 +191,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 		$scope.editingDoc.title 	= $scope.title;
 		$scope.editingDoc.authors 	= $scope.authors;
 		$scope.editingDoc.abstract	= $scope.abstract;
+		$scope.editingDoc.keywords	= $scope.keywords;
 		$scope.editingDoc.publisher 	= $scope.publisher;
 		$scope.editingDoc.publishedDate = $scope.publishedDate;
 		$scope.editingDoc.privacy 		= $scope.privacy;
@@ -201,6 +205,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 		$scope.title 	= '';
 		$scope.authors 	= '';
 		$scope.abstract = '';
+		$scope.keywords = '';
 		$scope.publisher 	 = '';
 		$scope.publishedDate = '';
 		$scope.isEditing 	 = false;
@@ -225,9 +230,9 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 		activate(DocumentSvc);
 	}
 		
-	$scope.getServerDocumentPath = function(path){
+	$scope.getServerDocumentPath = function(path, bDownload){
 		// console.log("come here 8!");
-		return DocumentSvc.getDocPath(path);
+		return DocumentSvc.getDocPath(path, bDownload);
 	}
 	
 	$scope.downloadDocument = function(doc){
