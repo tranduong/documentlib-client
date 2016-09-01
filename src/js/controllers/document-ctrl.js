@@ -2,9 +2,9 @@
 
 angular
   .module('SDLMSys')
-  .controller('DocumentCtrl', ['$scope', '$localStorage', 'Upload', '$timeout', 'DocumentSvc', 'UserActSvc', 'ngDialog', 'PAGINATION', DocumentCtrl]);
+  .controller('DocumentCtrl', ['$scope', '$localStorage', 'Upload', '$timeout', 'DocumentSvc', 'UserActSvc', 'ngDialog', 'PAGINATION', DEPLOYED_HOST, DocumentCtrl]);
   
-function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, UserActSvc, ngDialog, PAGINATION) {
+function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, UserActSvc, ngDialog, PAGINATION, DEPLOYED_HOST) {
 	console.log("Constructing DocumentCtrl...");
 
 	// list of uploaded documents
@@ -63,7 +63,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 			console.log("come here 3 - 1!");
 			// console.log($scope);
             file.upload = Upload.upload({
-                url: 'http://localhost:3001/uploadDoc',
+                url: DEPLOYED_HOST.URL + '/uploadDoc',
                 data: {
 					username: 	$scope.username,
 					title: 		$scope.title,
