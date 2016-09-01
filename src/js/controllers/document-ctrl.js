@@ -1,4 +1,4 @@
-' use strict' ;
+'use strict';
 
 angular
   .module('SDLMSys')
@@ -8,8 +8,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 	console.log("Constructing DocumentCtrl...");
 
 	// list of uploaded documents
-	$scope.uploadedDocs = [];
-	$scope.myid = $localStorage.myDetail._id; // user for recognize read, like activity in uploadeddocumentlist.html
+	$scope.uploadedDocs = [];	
     // document information parts
 	$scope.title = '';
 	$scope.authors  = '';
@@ -118,6 +117,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
     }
 		 
     function activate(DocumentSvc) {
+		$scope.myid = $localStorage.myDetail._id; // user for recognize read, like activity in uploadeddocumentlist.html
 		//console.log("Activated Controller");
 		DocumentSvc.getMines(function(res){
 			$scope.uploadedDocs = (res.data);		

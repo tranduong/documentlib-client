@@ -55,8 +55,7 @@ function MainSvc($http, $localStorage, DEPLOYED_HOST){
 		},		
 		logout: function(success) {
 			console.log("Logout has been called");
-			delete $localStorage.token;
-			delete $localStorage.myDetail;
+			$localStorage.token = null;
 			success();
 		},
 		sendFriendRequest:  function(data, success, error) {

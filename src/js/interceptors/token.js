@@ -10,6 +10,7 @@ angular
                     if ($localStorage.token && !config.url.match(SEARCH_HOST.MULTI_API)) {
 						//console.log("Add bearer: " + $localStorage.token);
 						//console.log("Added Bearer");
+						
                         config.headers.Authorization = 'Bearer ' + $localStorage.token;
                     }
                     return config;

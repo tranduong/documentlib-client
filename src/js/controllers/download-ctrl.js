@@ -1,4 +1,4 @@
-' use strict' ;
+'use strict';
 
 angular
   .module('SDLMSys')
@@ -8,8 +8,7 @@ function DownloadCtrl($scope, $localStorage, DocumentSvc, UserActSvc, ngDialog, 
 	console.log("Constructing DownloadCtrl...");
 
 	// list of downloaded documents
-	$scope.downloadedDocs = [];
-	$scope.myid = $localStorage.myDetail._id; // user for recognize read, like activity
+	$scope.downloadedDocs = [];	
 	// other working variables
 	$scope.log = '';
 	
@@ -25,6 +24,8 @@ function DownloadCtrl($scope, $localStorage, DocumentSvc, UserActSvc, ngDialog, 
 	
     function activate(DocumentSvc) {
 		//console.log("Activated Controller");
+		$scope.myid = $localStorage.myDetail._id; // user for recognize read, like activity
+		
 		DocumentSvc.getMyDownloadedDocs(function(res){
 			console.log(res.data);
 			$scope.downloadedDocs = res.data;		

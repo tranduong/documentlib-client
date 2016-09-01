@@ -97,17 +97,11 @@
 								</table>
 							</td>
 							</tr>
-							<tr><td align="right">								
-								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="woskysdoc"></dir-pagination-controls>
-							</td></tr>
 						</thead>
  						<tfoot>
-							<tr><td align="right">								
-								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="woskysdoc"></dir-pagination-controls>
-							</td></tr>
 						</tfoot>
 						<tbody>							
-							<tr dir-paginate="doc in resultDocs | itemsPerPage: pageSize" total-items="totalDocs" current-page="pagination.current" pagination-id="woskysdoc" class="hoverme">
+							<tr ng-repeat="doc in resultDocs" class="hoverme">
 								<td>
 									<table width="100%"><tr><td width="70%">
 										{{doc._source.title}}</td>
@@ -140,18 +134,12 @@
 									</tr>
 								</table>
 							</td>
-							</tr>
-							<tr><td align="right">								
-								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="wskysdoc"></dir-pagination-controls>
-							</td></tr>
+							</tr>							
 						</thead>
- 						<tfoot>
-							<tr><td align="right">								
-								<dir-pagination-controls on-page-change="pageChanged(newPageNumber)" pagination-id="wskysdoc"></dir-pagination-controls>
-							</td></tr>
+ 						<tfoot>							
 						</tfoot>
 						<tbody>							
-							<tr dir-paginate="doc in resultDocs | itemsPerPage: pageSize" total-items="totalDocs" current-page="pagination.current" pagination-id="wskysdoc" class="hoverme">
+							<tr ng-repeat="doc in resultDocs" class="hoverme">
 								<td>
 									<table width="100%"><tr><td width="70%">
 										{{doc._source.title}}</td>

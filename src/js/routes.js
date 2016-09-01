@@ -30,7 +30,7 @@ angular.module('SDLMSys').config(['$stateProvider', '$urlRouterProvider', '$loca
 			parent:"base",
 			views: {
 				"content@": {
-					controller: 'AuthCtrl',
+					controller: 'LoginCtrl',
 					templateUrl: 'templates/login/login.html'						
 				}
 			}
@@ -40,7 +40,7 @@ angular.module('SDLMSys').config(['$stateProvider', '$urlRouterProvider', '$loca
 			parent:"base",
 			views: {
 				"content@": {
-					controller: 'AuthCtrl',
+					controller: 'LoginCtrl',
 					templateUrl: 'templates/login/login.html'
 				}
 			}
@@ -50,7 +50,7 @@ angular.module('SDLMSys').config(['$stateProvider', '$urlRouterProvider', '$loca
 			parent:"base",
 			views: {
 				"content@": {
-					controller: 'AuthCtrl',
+					controller: 'LoginCtrl',
 					templateUrl: 'templates/login/logout.html'
 				}
 			}
@@ -60,7 +60,7 @@ angular.module('SDLMSys').config(['$stateProvider', '$urlRouterProvider', '$loca
 			parent:"base",
 			views: {
 				"content@": {
-					controller: 'AuthCtrl',
+					controller: 'LoginCtrl',
 					templateUrl: 'templates/register/registeruser.html'						
 				}
 			}
@@ -88,7 +88,7 @@ angular.module('SDLMSys').config(['$stateProvider', '$urlRouterProvider', '$loca
 			url: '',
 			parent:"base",
 			views: {
-				"headerbar@": {						
+				"headerbar@": {					
 					templateUrl: '/templates/partials/headerbar.html'
 				}
 			},
@@ -99,6 +99,7 @@ angular.module('SDLMSys').config(['$stateProvider', '$urlRouterProvider', '$loca
 		.state('base.header.panel', {
 							url: '/controlpanel/:userid',								
 			parent:"base.header",
+			controller: 'MainCtrl',
 			views: {
 				"sidebar@": {
 					templateUrl: '/templates/partials/sidebar.html'
@@ -113,25 +114,7 @@ angular.module('SDLMSys').config(['$stateProvider', '$urlRouterProvider', '$loca
 			ncyBreadcrumb: {
 				label: 'Home page'
 			}
-		})			
-		.state('controlpanel', {
-							url: '/controlpanel',
-			parent:"base.header",
-			views: {
-				"sidebar@": {
-					templateUrl: '/templates/partials/sidebar.html'
-				},
-				"content@": {
-					templateUrl: '/templates/overall/controlpanel.html'
-				},
-				"searchbar@base.header": {
-					templateUrl: '/templates/search/searchuser.html'
-				}
-			},
-			ncyBreadcrumb: {
-				label: 'Home page'
-			}
-		})
+		})		
 		.state('searchdocument', {
 							url: '/searchdocument',
 			parent: 'base.header.panel',

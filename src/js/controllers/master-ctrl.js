@@ -1,4 +1,4 @@
-' use strict' ;
+'use strict';
 /**
  * Master Controller
  */
@@ -39,7 +39,4 @@ function MasterCtrl($scope, $cookieStore, $localStorage) {
         $scope.$apply();
     };
 	console.log($scope);
-	
-	$scope.myDetail = $localStorage.myDetail;
-	$scope.token = $localStorage.token;
 }
