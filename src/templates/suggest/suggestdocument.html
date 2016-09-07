@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" ng-controller="RatingCtrl">
     <rd-widget>
       <rd-widget-header icon="fa-tasks" title="My suggested Books for you">
       </rd-widget-header>
@@ -8,7 +8,10 @@
             <tbody>
 				<tr><td>
 				<table><tr><td width="70%">
-					Perception theory</td><td align="right">View | Download | Reading | Like | Share</td></tr>
+					Perception theory  <span ng-repeat="rating in ratings">{{rating.current}} out of {{rating.max}}
+												<div star-rating rating-value="rating.current" max="rating.max" on-rating-selected="getSelectedRating(rating)"></div>
+											</span>
+					</td><td align="right">View | Download | Reading | Like | Share</td></tr>
 					<tr colspan="2"><td>This book is a first step of Ignorance theory</td></tr>
 				</table>
 				</td></tr>
@@ -51,12 +54,13 @@
 				</table>					
             </tbody>
           </table>
+		  
         </div>      
       </rd-widget-body>
       <rd-widget-footer>
         <div class="clearfix"></div>
       </rd-widget-footer>
-    </rd-widget>
- </div>
+    </rd-widget>	
+ </div> 
 
  

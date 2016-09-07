@@ -1,4 +1,4 @@
-<div class="row">	
+<div class="row" ng-controller="RatingCtrl">	
     <rd-widget>
       <rd-widget-header icon="fa-tasks" title="Searching Books">
       </rd-widget-header>
@@ -40,6 +40,7 @@
 					Loading results...
 				</div>
 				<div ng-if="undefined !== errorLog">{{resultLog}}</div>
+				
 				<div class="table-responsive" ng-switch-when="false">
 					  <table class="table">
 						<thead>
@@ -66,7 +67,11 @@
 							<tr dir-paginate="doc in resultDocs | itemsPerPage: pageSize" total-items="totalDocs" current-page="pagination.current" pagination-id="sdoc" class="hoverme">
 								<td>
 									<table width="100%"><tr><td width="70%">
-										{{doc._source.title}}</td>
+										{{$index + 1}}. {{doc._source.title}}
+											<span>
+											<div star-rating rating-value="{{(myDetail.ratings.length == 0 || myDetail.ratings.indexOf(doc._source.id) === -1) ? 0 : myDetail.ratings(myDetail.ratings.indexOf(doc._source.id)).value }}" max="10" on-rating-selected="getSelectedRating(rating, doc._source.id, myDetail._id)"></div>
+											</span>
+											</td>
 											<td align="right"><span class="text-success"><a href="{{getServerDocumentPath(doc._source.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._source.id, 'view')">View</a></span> | <span class="text-success"><a href="{{getServerDocumentPath(doc._source.uploadedPath, true)}}" target="_blank" download="{{doc._source.fileName}}" ng-click="userInteract(doc._source.id, 'download')">Download </a></span> | 															  
 															  <span class="text-success" ng-show="myDetail.likes.length == 0 || myDetail.likes.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'like');"> Like </a></span><span class="text-success" ng-show="myDetail.likes.length > 0 && myDetail.likes.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'unlike');"> Unlike </a></span> | 
 															  <span class="text-success" ng-show="myDetail.reads.length == 0 || myDetail.reads.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'read')"> Reading </a></span><span class="text-success" ng-show="myDetail.reads.length > 0 && myDetail.reads.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'stopread')"> Stop Reading </a></span>| 
@@ -104,7 +109,8 @@
 							<tr ng-repeat="doc in resultDocs" class="hoverme">
 								<td>
 									<table width="100%"><tr><td width="70%">
-										{{doc._source.title}}</td>
+											{{doc._source.title}} 											
+											</td>
 											<td align="right"><span class="text-success"><a href="{{getServerDocumentPath(doc._source.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._source.id, 'view')">View</a></span> | <span class="text-success"><a href="{{getServerDocumentPath(doc._source.uploadedPath, true)}}" target="_blank" download="{{doc._source.fileName}}" ng-click="userInteract(doc._source.id, 'download')">Download </a></span> | 															  
 															  <span class="text-success" ng-show="myDetail.likes.length == 0 || myDetail.likes.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'like');"> Like </a></span><span class="text-success" ng-show="myDetail.likes.length > 0 && myDetail.likes.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'unlike');"> Unlike </a></span> | 
 															  <span class="text-success" ng-show="myDetail.reads.length == 0 || myDetail.reads.indexOf(doc._source.id) === -1"><a href="" ng-click="userInteract(doc._source.id, 'read')"> Reading </a></span><span class="text-success" ng-show="myDetail.reads.length > 0 && myDetail.reads.indexOf(doc._source.id) !== -1"><a href="" ng-click="userInteract(doc._source.id, 'stopread')"> Stop Reading </a></span>| 

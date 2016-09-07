@@ -102,14 +102,27 @@ gulp.task('webserver', function() {
     });
 });
 
+/**
+ * No Live reload server
+ */
+gulp.task('webserver-nolive', function() {
+    connect.server({
+        root: 'dist',
+        livereload: false,
+        port: 8888
+    });
+});
+
 gulp.task('livereload', function() {
     gulp.src(['dist/**/*.*'])	
         .pipe(watch(['dist/**/*.*']))
         .pipe(connect.reload());
 });
 
+
 /**
  * Gulp tasks
  */
 gulp.task('build', ['usemin', 'build-assets', 'build-custom']);
 gulp.task('default', ['build', 'webserver', 'livereload', 'watch']);
+gulp.task('performance', ['build', 'webserver-nolive']);

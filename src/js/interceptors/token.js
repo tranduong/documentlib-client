@@ -7,7 +7,7 @@ angular
                 'request': function (config) {
                     config.headers = config.headers || {};
 					
-                    if ($localStorage.token && !config.url.match(SEARCH_HOST.MULTI_API)) {
+                    if ($localStorage.token && !config.url.match(SEARCH_HOST.MULTI_API) && !config.url.match(SEARCH_HOST.SINGLE_API)) {
 						//console.log("Add bearer: " + $localStorage.token);
 						//console.log("Added Bearer");
 						
