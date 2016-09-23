@@ -2,9 +2,9 @@
 
 angular
   .module('SDLMSys')
-  .controller('SearchCtrl', ['$scope', '$localStorage', 'SearchSvc', 'DocumentSvc', 'UserActSvc', 'MainSvc', 'RecommendSvc', 'ngDialog', 'PAGINATION', SearchCtrl]);
+  .controller('SearchCtrl', ['$scope', '$localStorage', 'SearchSvc', 'DocumentSvc', 'UserActSvc', 'MainSvc', 'RecommendSvc', 'CategorySvc','ngDialog', 'PAGINATION', SearchCtrl]);
   
-function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, MainSvc, RecommendSvc, ngDialog, PAGINATION ) {
+function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, MainSvc, RecommendSvc, CategorySvc, ngDialog, PAGINATION ) {
 
 	console.log("Constructing SearchCtrl...");
 	$scope.resultDocs = [];
@@ -18,6 +18,8 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
 				
 		$scope.isLoading = false;
 	}
+	
+	$scope.category = "";
 	
 	$scope.$watch('query',function(value)
 	{
@@ -202,7 +204,7 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
 	
 	$scope.getServerDocumentPath = function(path, bDownload){
 		//console.log("come here 8 : " + path);
-		return DocumentSvc.getDocPathNew(path, bDownload);
+		return DocumentSvc.getDocPath(path, bDownload);
 	}
 	
 
@@ -242,6 +244,12 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
 			scope: $scope
 		});
 	};		
+	
+	$scope.rating = 0;    
+
+    $scope.getSelectedRating = function (rating, doc_id, user_id) {
+        console.log(rating);
+    }
 }
 
 

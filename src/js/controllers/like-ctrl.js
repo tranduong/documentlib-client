@@ -44,7 +44,7 @@ function LikeCtrl($scope, $localStorage, DocumentSvc, UserActSvc, ngDialog, PAGI
 	$scope.currentPage = 0;
     $scope.pageSize = PAGINATION.ITEMS_PER_PAGE;
 	$scope.numberOfPages = function(){
-        return Math.ceil($scope.likeDocs / $scope.pageSize);                
+        return Math.ceil($scope.numberOfDocs / $scope.pageSize);                
     }
 	
 	$scope.userInteract = function(id, action, data){

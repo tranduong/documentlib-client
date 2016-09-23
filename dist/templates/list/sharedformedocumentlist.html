@@ -3,17 +3,14 @@
 	  <rd-widget-header icon="fa-tasks" title="The books are shared for you">	  
       </rd-widget-header>
       <rd-widget-body>        
-		<div ng-controller="ShareForMeCtrl">
+		<div ng-controller="ShareForMeCtrl as shareForMeCtrl">
 	  		<div class="table-responsive">
 				<form>
 					<input ng-model="queryTitle" type="text" ng-model-options="{ debounce: 100 }" placeholder="Filter by Title" class="form-control input-lg" autofocus>
 					<input ng-model="queryAuthor" type="text" ng-model-options="{ debounce: 100 }" placeholder="Filter by Authors" class="form-control input-lg" autofocus>
-					<select name="category" ng-model="queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
-						<option value="">All</option>
-						<option value="Mathematics">Mathematics</option>
-						<option value="Physics">Physics</option>
-						<option value="Computer Science">Computer Science</option>
-						<option value="Social Science">Social Science</option>
+					<select name="category" id="category" ng-controller="CategoryCtrl as categoryCtrl" ng-model="shareForMeCtrl.queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
+							<option value="">All</option>
+							<option ng-repeat="cat in categories" value="{{cat.value}}">{{cat.name}}</option>
 					</select>
 				</form>
 			</div>
@@ -39,7 +36,7 @@
 						</td></tr>
 					</tfoot>
 					<tbody>
-						<tr dir-paginate-start="sharedTransaction in sharedTransactions | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, category: queryCategory } track by $index" pagination-id="sfmdoc" class="hoverme">
+						<tr dir-paginate-start="sharedTransaction in sharedTransactions | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, category: shareForMeCtrl.queryCategory } track by $index" pagination-id="sfmdoc" class="hoverme">
 							<td><a href="#/controlpanel/{{sharedTransaction[0].mongo_id}}">{{sharedTransaction[0].username ? sharedTransaction[0].username : "no name"}}</a> shared "{{sharedTransaction[1].sharedText}}" to <a href="#/controlpanel/{{myid}}">you</a> </td>
 							<td>{{sharedTransaction[1].time | date:'dd/MM/yyyy - hh:mm:ss a'}}</td>
 							<td>{{sharedTransaction[2].title}}</td>

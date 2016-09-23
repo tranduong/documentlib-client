@@ -3,17 +3,14 @@
 	  <rd-widget-header icon="fa-tasks" title="The books you liked">	  
       </rd-widget-header>
       <rd-widget-body>
-		<div ng-controller="LikeCtrl">
+		<div ng-controller="LikeCtrl as likeCtrl">
 	  		<div class="table-responsive">
 				<form>
 					<input ng-model="queryTitle" type="text" ng-model-options="{ debounce: 100 }" placeholder="Filter by Title" class="form-control input-lg" autofocus>
 					<input ng-model="queryAuthor" type="text" ng-model-options="{ debounce: 100 }" placeholder="Filter by Authors" class="form-control input-lg" autofocus>
-					<select name="category" ng-model="queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
-						<option value="">All</option>
-						<option value="Mathematics">Mathematics</option>
-						<option value="Physics">Physics</option>
-						<option value="Computer Science">Computer Science</option>
-						<option value="Social Science">Social Science</option>
+					<select name="category" id="category" ng-controller="CategoryCtrl as categoryCtrl" ng-model="likeCtrl.queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
+							<option value="">All</option>
+							<option ng-repeat="cat in categories" value="{{cat.value}}">{{cat.name}}</option>
 					</select>
 				</form>
 			</div>
@@ -37,7 +34,7 @@
 						</td></tr>
 					</tfoot>
 					<tbody>
-						<tr dir-paginate-start="doc in likeDocs | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, category: queryCategory } track by $index" pagination-id="ddoc" class="hoverme">
+						<tr dir-paginate-start="doc in likeDocs | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, category: likeCtrl.queryCategory } track by $index" pagination-id="ddoc" class="hoverme">
 							<td>{{doc.title}}</td>
 							<td>{{doc.authors}}</td>
 							<td>{{doc.category}}</td>

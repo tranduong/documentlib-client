@@ -1,4 +1,4 @@
-<div ng-controller="DocumentCtrl">
+<div ng-controller="DocumentCtrl as documentCtrl">
 <div class="row">
 	<div class="col-lg-3 col-md-6 col-xs-12">
 		<rd-widget>
@@ -49,12 +49,9 @@
 						<option value="public">Public</option>
 						<option value="private">Private</option>
 					</select>
-					<select name="category" ng-model="queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
-						<option value="">All</option>
-						<option value="Mathematics">Mathematics</option>
-						<option value="Physics">Physics</option>
-						<option value="Computer Science">Computer Science</option>
-						<option value="Social Science">Social Science</option>
+					<select id="category" ng-model="documentCtrl.queryCategory" ng-controller="CategoryCtrl as categoryCtrl" class="input-underline input-lg" placeholder="Filter by Document Category">
+							<option value="">All</option>
+							<option ng-repeat="cat in categories" value="{{cat.value}}">{{cat.name}}</option>
 					</select>
 				</form>
 			</div>
@@ -80,7 +77,7 @@
 						</td></tr>
 					</tfoot>
 					<tbody>
-						<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, privacy : queryPrivacy, category: queryCategory } track by $index"  pagination-id="udoc" class="hoverme">
+						<tr dir-paginate="doc in uploadedDocs | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, privacy : queryPrivacy, category: documentCtrl.queryCategory } track by $index"  pagination-id="udoc" class="hoverme">
 							<td>{{doc.title}}</td>
 							<td>{{doc.authors}}</td>
 							<td>{{doc.category}}</td>

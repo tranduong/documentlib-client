@@ -15,9 +15,6 @@ function DocumentSvc($http, $localStorage, DEPLOYED_HOST){
 		removeDoc: function(data, success, error){
 			$http.post(baseUrl + '/deletedocument', data).success(success).error(error);
 		},
-		getDocPathNew: function(relative_path) {
-			return baseUrl + "/" + relative_path;
-		},
 		getDocPath: function(relative_path, bDownload) {
 			action = "view";
 			if (bDownload)

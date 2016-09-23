@@ -54,7 +54,7 @@ function ShareForMeCtrl($scope,  $timeout, $localStorage, DocumentSvc, UserActSv
 	$scope.currentPage = 0;
     $scope.pageSize = PAGINATION.ITEMS_PER_PAGE;
 	$scope.numberOfPages = function(){
-        return Math.ceil($scope.sharedTransactions / $scope.pageSize);                
+        return Math.ceil($scope.numberOfDocs / $scope.pageSize);                
     }
 	
 	$scope.userInteract = function(id, action, data){

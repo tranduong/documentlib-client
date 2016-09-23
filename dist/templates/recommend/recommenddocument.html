@@ -1,21 +1,26 @@
 <div class="row">
     <rd-widget>
-	  <rd-widget-header icon="fa-tasks" title="The books you liked">	  
+	  <rd-widget-header icon="fa-tasks" title="Your Reading Books">	  
       </rd-widget-header>
       <rd-widget-body>
-		<div  ng-controller="LikeCtrl as likeCtrl">
-	  		<div class="table-responsive" >
+		<div ng-controller="RecommenderCtrl as recommendCtrl">
+	  		<div class="table-responsive">
 				<form>
-					<input ng-model="queryTitle" type="text" ng-model-options="{ debounce: 100 }"  placeholder="Filter by Title" class="form-control input-lg" autofocus>
-					<input ng-model="queryAuthor" type="text" ng-model-options="{ debounce: 100 }"  placeholder="Filter by Authors" class="form-control input-lg" autofocus>
-					<select name="category" id="category" ng-controller="CategoryCtrl as categoryCtrl" ng-model="likeCtrl.queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
+					<input ng-model="queryTitle" type="text" ng-model-options="{ debounce: 100 }" placeholder="Filter by Title" class="form-control input-lg" autofocus>
+					<input ng-model="queryAuthor" type="text" ng-model-options="{ debounce: 100 }" placeholder="Filter by Authors" class="form-control input-lg" autofocus>
+					<select name="category" id="category" ng-controller="CategoryCtrl as categoryCtrl" ng-model="recommendCtrl.queryCategory" class="input-underline input-lg" placeholder="Filter by Document Category">
 							<option value="">All</option>
 							<option ng-repeat="cat in categories" value="{{cat.value}}">{{cat.name}}</option>
 					</select>
+					<select name="type" ng-model="type" class="input-underline input-lg" placeholder="Select the Recommend Type">
+						<option value="simple">Simple Content-based Top N</option>
+						<option value="social">Social Recommendation Top N</option>
+						<option value="debug">Simple Recommendation Top N - Debug</option>
+					</select>
 				</form>
 			</div>
-			<div class="table-responsive" >
-				<table class="table" ng-if="likeDocs != null">
+			<div class="table-responsive">
+				<table class="table" ng-if="recommendDocs != null">
 					<thead>
 						<tr>
 							<td>Title</td>
@@ -34,23 +39,24 @@
 						</td></tr>
 					</tfoot>
 					<tbody>
-						<tr dir-paginate-start="doc in likeDocs | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, category: likeCtrl.queryCategory } track by $index"  pagination-id="ddoc" class="hoverme" >
+						<tr dir-paginate-start="doc in recommendDocs | itemsPerPage: pageSize | filter:{ title: queryTitle, authors : queryAuthor, category: recommendCtrl.queryCategory } track by $index" pagination-id="ddoc" class="hoverme">
 							<td>{{doc.title}}</td>
 							<td>{{doc.authors}}</td>
 							<td>{{doc.category}}</td>
 							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._id, 'view')">{{doc.fileName}}</a></span></td>
 							<td><span class="text-success"><a href="{{getServerDocumentPath(doc.uploadedPath, true)}}" target="_blank" download="{{doc.fileName}}" ng-click="userInteract(doc._id, 'download')">Download</a></span></td>
-							<td><span class="text-success" ng-show="doc.liked_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'unlike')" >Unlike</a></span></td>
-							<td><span class="text-success" ng-show="doc.read_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(doc._id, 'read')" >Reading</a></span>
-							    <span class="text-success" ng-show="doc.read_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'stopread')" >Stop Reading</a></span></td>
+							<td><span class="text-success" ng-show="doc.liked_by.indexOf(myid) === -1"><a href="" ng-click="userInteract(doc._id, 'like')">Like</a></span>
+								<span class="text-success" ng-show="doc.liked_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'unlike')">Unlike</a></span>
+							</td>
+							<td><span class="text-success" ng-show="doc.read_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'stopread')">Stop Reading</a></span></td>
 							<td><span class="text-success"><a href="" ng-click="openShare(doc._id)">Share</a></span></td>
 							<td>Viewed ({{doc.viewed_by.length}})</td>
 							<td>Downloaded ({{doc.downloaded_by.length}})</td>
 							<td>Liked ({{doc.liked_by.length}})</td>
 							<td>Reading ({{doc.read_by.length}})</td>
-							<td>Shared ({{doc.beSharedTransactions.length}})</td>									
+							<td>Shared ({{doc.beSharedTransactions.length}})</td>							
 						</tr>
-						<tr dir-paginate-end><td colspan="8">{{doc.abstract}}</td></tr>
+						<tr dir-paginate-end><td colspan="13">{{doc.abstract}}</td></tr>
 					</tbody>
 				</table>
 			</div>

@@ -1,9 +1,9 @@
-<div class="row" ng-controller="RatingCtrl">	
+<div class="row">	
     <rd-widget>
       <rd-widget-header icon="fa-tasks" title="Searching Books">
       </rd-widget-header>
       <rd-widget-body classes="padding" >
-	  <div ng-controller="SearchCtrl">
+	  <div ng-controller="SearchCtrl as searchCtrl">
 		   <div>
 				<form name="form" ng-submit="submit()">
 					<noscript>
@@ -17,20 +17,18 @@
 							<option value="pubnpri">my Public and my Private</option>
 							<option value="public">my Public</option>
 							<option value="private">my Private</option>
+						</select>						
+						<select id="category" ng-controller="CategoryCtrl as categoryCtrl" ng-model="$parent.category" class="input-underline input-lg" placeholder="Select the Document Category">
+							<option value="">All</option>
+							<option ng-repeat="cat in categories" value="{{cat.value}}">{{cat.name}}</option>
 						</select>
-						<select name="category" ng-model="category" class="input-underline input-lg" placeholder="Select the Document Category">
-							<option value="all">All</option>
-							<option value="Mathematics">Mathematics</option>
-							<option value="Physics">Physics</option>
-							<option value="Computer Science">Computer Science</option>
-							<option value="Social Science">Social Science</option>
-						</select>
-						<select name="demomode" ng-model="$parent.demomode" ng-if="!isEditing" class="input-underline input-lg" placeholder="Select the demo mode you want">
+						<input type="hidden" name="demomode" ng-model="$parent.demomode" value="1" />
+						<!-- <select name="demomode" ng-model="$parent.demomode" ng-if="!isEditing" class="input-underline input-lg" placeholder="Select the demo mode you want">
 							<option value="1">Custom routing with 3 public/private/share indexes</option>
 							<option value="2">Custom routing with one index and 3 public/private/share types</option>									
 							<option value="3">Separate indexes for users</option>
 							<option value="4">Separate types for private/public/share</option>						
-						</select>
+						</select> -->
 					</div> 		
 				</form>
 			</div>
@@ -68,8 +66,8 @@
 								<td>
 									<table width="100%"><tr><td width="70%">
 										{{$index + 1}}. {{doc._source.title}}
-											<span>
-											<div star-rating rating-value="{{(myDetail.ratings.length == 0 || myDetail.ratings.indexOf(doc._source.id) === -1) ? 0 : myDetail.ratings(myDetail.ratings.indexOf(doc._source.id)).value }}" max="10" on-rating-selected="getSelectedRating(rating, doc._source.id, myDetail._id)"></div>
+											<span ng-show="myDetail.ratings != null && myDetail.ratings.length > 0 && myDetail.ratings.indexOf(doc._source.id) !== -1">
+												<div star-rating rating-value="myDetail.ratings(myDetail.ratings.indexOf(doc._source.id)).value != 'undefined' ? myDetail.ratings(myDetail.ratings.indexOf(doc._source.id)).value : 5" max="10" on-rating-selected="getSelectedRating(rating, doc._source.id, myDetail._id)"></div>
 											</span>
 											</td>
 											<td align="right"><span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._source.id, 'view')">View</a></span> | <span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, true)}}" target="_blank" download="{{doc._source.fileName}}" ng-click="userInteract(doc._source.id, 'download')">Download </a></span> | 															  
@@ -87,7 +85,7 @@
 					  </table>					
 				</div>				
 			</div>
-			<div ng-switch="isLoading">
+			<!-- <div ng-switch="isLoading">
 				<div class="table-responsive" ng-switch-when="false">
 					Combined Recommendation without skyline
 					  <table class="table" >
@@ -163,7 +161,7 @@
 						</tbody>
 					  </table>					
 				</div>				
-			</div>	
+			</div>	 -->
 		</div>
 		<script type="text/ng-template" id="firstDialog">
 			<div class="ngdialog-message">

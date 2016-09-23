@@ -73,7 +73,7 @@ function DownloadCtrl($scope, $localStorage, DocumentSvc, UserActSvc, ngDialog, 
 	$scope.currentPage = 0;
     $scope.pageSize = PAGINATION.ITEMS_PER_PAGE;
 	$scope.numberOfPages = function(){
-        return Math.ceil($scope.downloadedDocs / $scope.pageSize);                
+        return Math.ceil($scope.numberOfDocs / $scope.pageSize);                
     }
 	
 	$scope.userInteract = function(id, action, data){

@@ -12,7 +12,31 @@ function RecommendSvc($http, $localStorage, DEPLOYED_HOST)
 			var data = {};
 			data.originList = originalList;
 			data.wowSky = wowSky;
-			$http.post(baseUrl + '/recommendTopN', data).success(success).error(error);
+			$http.post(baseUrl + '/recommend/recommendTopN', data).success(success).error(error);
+		},
+		recommendSimple: function(uid, thres, K, success, error) // uid : user id, thres : threshold, K : top K items
+		{
+			var data = {};
+			data.user_id = uid; 	// User u
+			data.threshold = thres; 	// Threshold δ, 
+			data.K_value = K; 	// number of Recommendations K	
+			$http.post(baseUrl + '/recommend/simpleTopN', data).success(success).error(error);
+		},
+		recommendSocial: function(uid, thres, K, success, error) // uid : user id, thres : threshold, K : top K items
+		{
+			var data = {};
+			data.user_id = uid; 	// User u
+			data.threshold = thres; 	// Threshold δ, 
+			data.K_value = K; 	// number of Recommendations K
+			$http.post(baseUrl + '/recommend/socialTopN', data).success(success).error(error);
+		},
+		recommendSimpleDebug: function(uid, thres, K, success, error) // uid : user id, thres : threshold, K : top K items
+		{
+			var data = {};
+			data.user_id = uid; 	// User u
+			data.threshold = thres; 	// Threshold δ, 
+			data.K_value = K; 	// number of Recommendations K	
+			$http.post(baseUrl + '/recommend/simpleTopNDebug', data).success(success).error(error);
 		}
 	};
 }

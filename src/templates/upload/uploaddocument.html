@@ -44,12 +44,13 @@
 									<option value="Computer Science">Computer Science</option>
 									<option value="Social Science">Social Science</option>
 								</select>
-								<select name="demomode" ng-model="$parent.demomode" ng-if="!isEditing" class="input-underline input-lg" placeholder="Select the demo mode you want">
+								<input type="hidden" name="demomode" value="1" />
+								<!-- <select name="demomode" ng-model="$parent.demomode" ng-if="!isEditing" class="input-underline input-lg" placeholder="Select the demo mode you want">
 									<option value="1">Custom routing with 3 public/private/share indexes</option>
 									<option value="2">Custom routing with one index and 3 public/private/share types</option>									
 									<option value="3">Separate indexes for users</option>
 									<option value="4">Separate types for private/public/share</option>						
-								</select>
+								</select> -->
 							</div> 							
 							<div class="form-group"> 
 								<textarea rows="4"  ng-minlength="10" ng-maxlength="4000" ng-trim="true" name="abstract" class="form-control input-underline input-lg" placeholder="Summarize or describe abstract of your document here" ng-model="abstract" required> 

@@ -127,16 +127,16 @@ angular.module('SDLMSys').config(['$stateProvider', '$urlRouterProvider', '$loca
 				label: 'Search Documents'
 			}                
 		})			
-		.state('suggestdocument', {
-							url: '/suggestdocument',
+		.state('recommenddocument', {
+							url: '/recommenddocument',
 			parent: 'base.header.panel',
 			views: {
 				"content@": {
-					templateUrl: 'templates/suggest/suggestdocument.html'
+					templateUrl: 'templates/recommend/recommenddocument.html'
 				}
 			},
 			ncyBreadcrumb: {
-				label: 'Suggest Documents'
+				label: 'Documents Recommendation'
 			} 
 		})
 		.state('downloaddocument', {
