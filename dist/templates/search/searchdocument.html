@@ -22,7 +22,6 @@
 							<option value="">All</option>
 							<option ng-repeat="cat in categories" value="{{cat.value}}">{{cat.name}}</option>
 						</select>
-						<input type="hidden" name="demomode" ng-model="$parent.demomode" value="1">
 						<!-- <select name="demomode" ng-model="$parent.demomode" ng-if="!isEditing" class="input-underline input-lg" placeholder="Select the demo mode you want">
 							<option value="1">Custom routing with 3 public/private/share indexes</option>
 							<option value="2">Custom routing with one index and 3 public/private/share types</option>									

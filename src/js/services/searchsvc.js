@@ -6,7 +6,7 @@ angular
 function SearchSvc($http, $localStorage, SEARCH_HOST)
 {	
 	return {
-		searchData: function(query, privacy, category, demomode, fromPage, size, successCallback, errorCallback)
+		searchData: function(query, privacy, category, fromPage, size, successCallback, errorCallback)
 		{
 			var searchURL = SEARCH_HOST.URL + '/' + SEARCH_HOST.MULTI_API;
 			var searchBody = "";
@@ -15,6 +15,7 @@ function SearchSvc($http, $localStorage, SEARCH_HOST)
 			var categoryFilter = ""
 			var categoryFilter_prefix = ""
 			var categoryFilter_subfix = "";
+			var demomode = '1';
 								
 			if (undefined !== category && category !== "all" && category !== "")
 			{

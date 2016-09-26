@@ -64,15 +64,15 @@
 							<td>Category</td>
 							<td>Privacy</td>
 							<td>Uploaded Date</td>
-							<td colspan="6">Actions</td>
+							<td colspan="5">Actions</td>
 							<td colspan="5">Statistics</td>
 						</tr>
-						<tr><td align="right" colspan="16">								
+						<tr><td align="right" colspan="15">								
 							<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>
 						</td></tr>
 					</thead>
 					<tfoot>
-						<tr><td align="right" colspan="16">								
+						<tr><td align="right" colspan="15">								
 							<dir-pagination-controls pagination-id="udoc"></dir-pagination-controls>				
 						</td></tr>
 					</tfoot>
@@ -89,7 +89,6 @@
 								<span class="text-success" ng-show="doc.read_by.indexOf(myid) !== -1"><a href="" ng-click="userInteract(doc._id, 'stopread')">Stop Reading</a></span>
 							</td>
 							<td><span class="text-success"><a href="" ng-click="openShare(doc._id)">Share</a></span></td>
-							<td><span class="text-success" ng-click="editDocument(doc);"><i class="fa">Edit</i></span></td>
 							<td><span class="text-success" ng-click="deleteDocument($index,doc);"><i class="fa fa-check">Remove</i></span></td>
 							<td>Viewed ({{doc.viewed_by.length}})</td>
 							<td>Downloaded ({{doc.downloaded_by.length}})</td>

@@ -17,9 +17,8 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 	$scope.keywords  = '';
 	$scope.publisher  = '';
 	$scope.publishedDate  = '';	
-	$scope.privacy 	= '';
+	$scope.privacy 	= 'private';
 	$scope.category = '';
-	$scope.demomode = '';
 	
 	// other working variables
 	$scope.log = '';
@@ -55,6 +54,13 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 	
 	function cleanup() {
 		$scope.file = undefined;
+		$scope.title = '';
+		$scope.authors  = '';
+		$scope.abstract  = '';
+		$scope.keywords  = '';
+		$scope.publisher  = '';
+		$scope.publishedDate  = '';	
+		$scope.category = '';
 	}
 	
 	$scope.uploadFile = function(file) {
@@ -63,6 +69,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
         if (file) {
 			$scope.clearLog();
 			console.log("come here 3 - 1!");
+			var abstract_content = $scope.abstract.replace("\r\n", " ");
 			// console.log($scope);
             file.upload = Upload.upload({
                 url: $scope.uploadService,
@@ -70,13 +77,12 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 					username: 	$scope.username,
 					title: 		$scope.title,
 					authors: 	$scope.authors,
-					abstract: 	$scope.abstract,
+					abstract: 	abstract_content,
 					keywords: 	$scope.keywords,
 					publisher: 	$scope.publisher,
 					publishedDate: 	$scope.publishedDate,
 					privacy: 		$scope.privacy,
 					category: 		$scope.category,
-					demomode:		$scope.demomode,
 					file: file  
                 }
             })
@@ -90,11 +96,12 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 					$scope.log = log;
 					file.result = resp.data;
 					//console.log("Running here out! 2");	
-					$scope.isSucceedUpload = $scope.isSucceedUpload + 1;					
-				});				
-				$scope.isSucceedUpload = $scope.isSucceedUpload + 1;
-				console.log("Running here out! 1");
-				cleanup();
+					$scope.isSucceedUpload += 1;
+					cleanup();
+				}, 1);				
+				$scope.isSucceedUpload += 1;
+				console.log("Running here out! 1");	
+				cleanup();				
             }, function (resp) {
 				//console.log("Running error!");
                 if (resp.status > 0)
@@ -108,7 +115,7 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 					file.progress = Math.min(progressPercentage);
                     $scope.log = 'progress: ' + progressPercentage + 
                     	'% ' + evt.config.data.file.name;
-					$scope.isSucceedUpload = $scope.isSucceedUpload + 1;
+					$scope.isSucceedUpload += 1;
 			});			
         }
 		else{
@@ -214,7 +221,6 @@ function DocumentCtrl($scope, $localStorage, Upload, $timeout, DocumentSvc, User
 
 		$scope.privacy	 	 = '';
 		$scope.category 	 = '';
-		$scope.demomode 	 = '';		
 	}
 	
 	

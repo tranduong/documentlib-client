@@ -30,15 +30,6 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
 		$scope.isLoading = false;
 	});
 	
-	$scope.$watch('demomode',function(value)
-	{
-		$scope.isLoading = true;
-
-		fetch($scope.query);
-				
-		$scope.isLoading = false;
-	});
-	
 	$scope.$watch('category',function(value)
 	{
 		$scope.isLoading = true;
@@ -69,7 +60,7 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
 		//console.log(query);
 		clearPreviousResult();
 		// Compute the items from the query by applying tf-idf ( default in elastic search )
-		SearchSvc.searchData(query, $scope.privacy, $scope.category, $scope.demomode, 0, $scope.pageSize, function(response){
+		SearchSvc.searchData(query, $scope.privacy, $scope.category, 0, $scope.pageSize, function(response){
 			console.log(response);
 			if ( response.status == 200 ) // successful 
 			{
@@ -106,7 +97,7 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
 		// From the items, get their ids and searching them by a breadth-first search in neo4j with max-deep 5.
 		limit = 30; // Top-30 Items
 		
-		SearchSvc.searchData(query, $scope.privacy, $scope.category, $scope.demomode, 0, limit, function(response){
+		SearchSvc.searchData(query, $scope.privacy, $scope.category, 0, limit, function(response){
 			console.log(response);
 			if ( response.status == 200 ) // successful 
 			{
@@ -158,7 +149,7 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
 	function getPageData(thePage)
 	{
 		$scope.isLoading = true;
-		SearchSvc.searchData($scope.query, $scope.privacy, $scope.category, $scope.demomode,(thePage - 1)*$scope.pageSize, $scope.pageSize, function(response){
+		SearchSvc.searchData($scope.query, $scope.privacy, $scope.category, (thePage - 1)*$scope.pageSize, $scope.pageSize, function(response){
 			console.log(response);
 			if ( response.status == 200 ) // successful 
 			{
