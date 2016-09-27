@@ -3,9 +3,9 @@
 
 angular
   .module('SDLMSys')
-  .controller('MainCtrl', ['$rootScope', '$scope', '$route', '$stateParams', '$location', '$localStorage', 'MainSvc', 'DocumentSvc', 'ngDialog', 'PAGINATION',  MainCtrl]);
+  .controller('MainCtrl', ['$rootScope', '$scope', '$route', '$stateParams', '$location', '$localStorage', 'MainSvc', 'DocumentSvc', 'RecommendSvc', 'ngDialog', 'PAGINATION',  MainCtrl]);
   
- function MainCtrl($rootScope, $scope, $route, $stateParams, $location, $localStorage, MainSvc, DocumentSvc, ngDialog, PAGINATION) {
+ function MainCtrl($rootScope, $scope, $route, $stateParams, $location, $localStorage, MainSvc, DocumentSvc, RecommendSvc, ngDialog, PAGINATION) {
 	console.log("Constructing MainCtrl...");
 		
 	$scope.me = function(){
@@ -24,6 +24,9 @@ angular
 	$scope.userReadDocs = [];
 	$scope.numberOfUserReadDocs = 0;
 	$scope.currentPage = 0;
+	
+	$scope.recommendDocs = [];
+	$scope.numberOfRecommends = 0;
 	
     $scope.pageSize = PAGINATION.ITEMS_PER_PAGE * 2;
 	$scope.numberOfPages = function(){
@@ -45,6 +48,34 @@ angular
 		}, function() {
 			$scope.userReadDocs = [];		
 			$scope.numberOfUserReadDocs = 0;
+			$rootScope.error = 'Failed to fetch documents information';
+		});
+	}
+	
+	$scope.getUserRecommendDocuments = function(user_id){		
+		RecommendSvc.recommendSocial(user_id, 0.2, 10, function(res){
+			if ( res.type )
+			{
+				console.log("===========Recommendation===========");
+				console.log(res);			
+		
+				$scope.recommendDocs = [];
+				for (var i = 0; i < res.data.length; i++)
+				{
+					$scope.recommendDocs.push(res.data[i].doc);		
+				}			
+				$scope.numberOfRecommends = $scope.recommendDocs.length;
+				console.log("number of recommends = " + $scope.numberOfRecommends);
+				console.log($scope.recommendDocs);
+			}
+			else
+			{
+				$scope.recommendDocs = [];
+				$scope.numberOfRecommends = 0;
+			}
+		}, function() {
+			$scope.recommendDocs = [];
+			$scope.numberOfRecommends = 0;
 			$rootScope.error = 'Failed to fetch documents information';
 		});
 	}
@@ -120,7 +151,10 @@ angular
 			
 			$scope.myid = statistic_user_id;
 			console.log(statistic_user_id + " - " + $localStorage.myDetail._id + " or " + $stateParams.userid);
+			
 			$scope.getUserReadingDocuments(statistic_user_id);
+			
+			$scope.getUserRecommendDocuments(statistic_user_id);
 			
 			MainSvc.getStatistic(statistic_user_id, function(success){
 				console.log(success);

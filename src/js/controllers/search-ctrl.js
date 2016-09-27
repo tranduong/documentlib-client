@@ -95,51 +95,51 @@ function SearchCtrl($scope, $localStorage, SearchSvc, DocumentSvc, UserActSvc, M
     
 		// From the current user, search by a breadth-first search in neo4j with max-deep 5
 		// From the items, get their ids and searching them by a breadth-first search in neo4j with max-deep 5.
-		limit = 30; // Top-30 Items
+		// limit = 30; // Top-30 Items
 		
-		SearchSvc.searchData(query, $scope.privacy, $scope.category, 0, limit, function(response){
-			console.log(response);
-			if ( response.status == 200 ) // successful 
-			{
-				if (response.data)
-				{
-					totalCount = 0;
-					var docs = [];
-					var numbers = response.data.responses.length;
-					for (i = 0; i < numbers; i++)
-					{
-						if (response.data.responses[i].error === 'undefined')
-						{
-							docs = docs.concat(response.data.responses[i].hits.hits);
-							totalCount = totalCount + response.data.responses[i].hits.total;					
-						}
-					}
+		// SearchSvc.searchData(query, $scope.privacy, $scope.category, 0, limit, function(response){
+			// console.log(response);
+			// if ( response.status == 200 ) // successful 
+			// {
+				// if (response.data)
+				// {
+					// totalCount = 0;
+					// var docs = [];
+					// var numbers = response.data.responses.length;
+					// for (i = 0; i < numbers; i++)
+					// {
+						// if (response.data.responses[i].error === 'undefined')
+						// {
+							// docs = docs.concat(response.data.responses[i].hits.hits);
+							// totalCount = totalCount + response.data.responses[i].hits.total;					
+						// }
+					// }
 					
-					if ( totalCount < limit)
-					{
-						limit = totalCount;
-					}
+					// if ( totalCount < limit)
+					// {
+						// limit = totalCount;
+					// }
 					
-					var topN = [];
-					for (j = 0; j < limit; j++)
-					{
-						var doc = {};
-						doc.mongo_id = docs[j]._source.id;
-						doc.score = docs[j]._score;
-						topN.push(doc);
-					}
+					// var topN = [];
+					// for (j = 0; j < limit; j++)
+					// {
+						// var doc = {};
+						// doc.mongo_id = docs[j]._source.id;
+						// doc.score = docs[j]._score;
+						// topN.push(doc);
+					// }
 					
-					console.log(topN);
-					RecommendSvc.recommendList(topN, false, function(res){
-						console.log(res);
-					}, function(err){
-						console.log(err);
-					});
-				}
-			}
-		}, function(err){
-			console.log(err);
-		});
+					// console.log(topN);
+					// RecommendSvc.recommendList(topN, false, function(res){
+						// console.log(res);
+					// }, function(err){
+						// console.log(err);
+					// });
+				// }
+			// }
+		// }, function(err){
+			// console.log(err);
+		// });
 	}
 	
 	$scope.pageChanged = function(newPage) {

@@ -65,8 +65,8 @@
 								<td>
 									<table width="100%"><tr><td width="70%">
 										{{$index + 1}}. {{doc._source.title}}
-											<span ng-show="myDetail.ratings != null && myDetail.ratings.length > 0 && myDetail.ratings.indexOf(doc._source.id) !== -1">
-												<div star-rating rating-value="myDetail.ratings(myDetail.ratings.indexOf(doc._source.id)).value != 'undefined' ? myDetail.ratings(myDetail.ratings.indexOf(doc._source.id)).value : 5" max="10" on-rating-selected="getSelectedRating(rating, doc._source.id, myDetail._id)"></div>
+											<span ng-controller="RatingCtrl as rater">
+												<div star-rating rating-value="5" max="10" on-rating-selected="rate(myDetail._id, doc._source.id, rating)"></div>
 											</span>
 											</td>
 											<td align="right"><span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, false)}}" target="_blank" ng-click="userInteract(doc._source.id, 'view')">View</a></span> | <span class="text-success" ><a href="{{getServerDocumentPath(doc._source.uploadedPath, true)}}" target="_blank" download="{{doc._source.fileName}}" ng-click="userInteract(doc._source.id, 'download')">Download </a></span> | 															  
